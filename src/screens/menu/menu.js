@@ -29,14 +29,14 @@ class MenuScreen extends React.Component {
           {/*Documents button*/}
           <TouchableOpacity
           style={styles.buttons}
-          onPress={()=>this.props.navigation.navigate('Details')}>
+          onPress={()=>this.props.navigation.navigate('DocumentUp')}>
           <Text style={styles.text}>Documents</Text>
           <Icon2 name="addfile" size={40} color='black'/>
           </TouchableOpacity>
   {/*Audio button*/}
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('Details')}
+            onPress={() => this.props.navigation.navigate('AudioUp')}
             >
             <Text style={styles.text}>Audio</Text>
               <Icon name="audiotrack" size={40} color='black'/>
@@ -46,7 +46,7 @@ class MenuScreen extends React.Component {
           {/*Gallery button*/}
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('Details')}
+            onPress={() => this.props.navigation.navigate('galleryscreen')}
           >
           <Text style={styles.text}>Gallery</Text>
           <Icon name="photo-library" size={40} color='black'/>
@@ -54,7 +54,7 @@ class MenuScreen extends React.Component {
           {/*Schedule button*/}
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('Details')}
+            onPress={() => this.props.navigation.navigate('schedule')}
           >
           <Text style={styles.text}>Schedule</Text>
           <Icon name="schedule" size={40} color='black'/>
@@ -64,7 +64,7 @@ class MenuScreen extends React.Component {
           {/*Settings button*/}
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('Details')}
+            onPress={() => this.props.navigation.navigate('settings')}
           >
           <Text style={styles.text}>Settings</Text>
           <Icon name="settings" size={40} color='black'/>
@@ -72,7 +72,7 @@ class MenuScreen extends React.Component {
           {/*Uploaded Files button*/}
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('Details')}
+            onPress={() => this.props.navigation.navigate('uploadedF')}
           >
           <Text style={styles.text}>Uploaded Files</Text>
           <Icon name="cloud-upload" size={40} color='black'/>
