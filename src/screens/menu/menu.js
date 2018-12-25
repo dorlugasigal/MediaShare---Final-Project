@@ -35,7 +35,7 @@ class MenuScreen extends React.Component {
           </TouchableOpacity>
   {/*Audio button*/}
           <TouchableOpacity
-            style={styles.buttons}
+            style={[styles.buttons,{backgroundColor:'white'}]}
             onPress={() => this.props.navigation.navigate('AudioUp')}
             >
             <Text style={styles.text}>Audio</Text>

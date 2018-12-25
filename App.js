@@ -9,6 +9,7 @@ import Schedule from "./src/screens/schedule/schedule"
 import UploadedFiles from "./src/screens/uploadedFiles/uploadedFiles"
 import Settings from "./src/screens/settings/settings"
 import Gallery from "./src/screens/gallery/gallery"
+import SignIn from "./src/screens/signIn/signIn"
 const RootStack = createStackNavigator(
   {
     Menu: MenuScreen,
@@ -19,10 +20,11 @@ const RootStack = createStackNavigator(
     schedule: Schedule,
     uploadedF: UploadedFiles,
     settings: Settings,
-    galleryscreen :Gallery
+    galleryscreen :Gallery,
+    signIn: SignIn
   },
   {
-    initialRouteName: 'Menu',
+    initialRouteName: 'signIn',
   }
 );
 
