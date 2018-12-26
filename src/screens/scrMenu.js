@@ -55,7 +55,7 @@ class MenuScreen extends React.Component {
          <View style={styles.rowmenu}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('DocumentUp')}>
+            onPress={() => this.props.navigation.navigate('DocumentScreen')}>
             <Text style={styles.text}>
               Documents
             </Text>
@@ -64,7 +64,7 @@ class MenuScreen extends React.Component {
 
           <TouchableOpacity
             style={[styles.buttons, { backgroundColor: 'white' }]}
-            onPress={() => this.props.navigation.navigate('AudioUp')}
+            onPress={() => this.props.navigation.navigate('AudioScreen')}
           >
             <Text style={styles.text}>Audio</Text>
             <Icon name="audiotrack" size={40} color='black' />
@@ -74,14 +74,14 @@ class MenuScreen extends React.Component {
         <View style={styles.rowmenu}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('galleryscreen')}
+            onPress={() => this.props.navigation.navigate('GalleryScreen')}
           >
             <Text style={styles.text}>Gallery</Text>
             <Icon name="photo-library" size={40} color='black' />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('schedule')}
+            onPress={() => this.props.navigation.navigate('ScheduleScreen')}
           >
             <Text style={styles.text}>Schedule</Text>
             <Icon name="schedule" size={40} color='black' />
@@ -91,14 +91,14 @@ class MenuScreen extends React.Component {
         <View style={styles.rowmenu}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('settings')}
+            onPress={() => this.props.navigation.navigate('SettingsScreen')}
           >
             <Text style={styles.text}>Settings</Text>
             <Icon name="settings" size={40} color='black' />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('uploadedF')}
+            onPress={() => this.props.navigation.navigate('FilesScreen')}
           >
             <Text style={styles.text}>Uploaded Files</Text>
             <Icon name="cloud-upload" size={40} color='black' />
