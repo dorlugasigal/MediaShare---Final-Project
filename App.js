@@ -1,15 +1,15 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation'; 
-import MenuScreen from "./src/screens/scrMenu";
-import DetailsScreen from "./src/screens/scrDetails";
-import PhotoScreen from "./src/screens/scrPhoto"
-import DocumentScreen from "./src/screens/scrDocument"
-import AudioScreen from "./src/screens/scrAudio"
-import ScheduleScreen from "./src/screens/scrSchedule"
-import FilesScreen from "./src/screens/scrUploadedFiles"
-import SettingsScreen from "./src/screens/scrSettings"
-import GalleryScreen from "./src/screens/scrGallery"
-import InitScreen from "./src/screens/scrInit"
+import MenuScreen from "./src/Screens/scrMenu";
+import DetailsScreen from "./src/Screens/scrDetails";
+import PhotoScreen from "./src/Screens/scrPhoto"
+import DocumentScreen from "./src/Screens/scrDocument"
+import AudioScreen from "./src/Screens/scrAudio"
+import ScheduleScreen from "./src/Screens/scrSchedule"
+import FilesScreen from "./src/Screens/scrUploadedFiles"
+import SettingsScreen from "./src/Screens/scrSettings"
+import GalleryScreen from "./src/Screens/scrGallery"
+import InitScreen from "./src/Screens/scrInit"
 
 
 const RootStack = createStackNavigator(
