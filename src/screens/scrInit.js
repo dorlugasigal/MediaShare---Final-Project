@@ -1,8 +1,10 @@
 import React from 'react';
-import {View,Text,Button} from 'react-native'
+import { ActivityIndicator,View, Text } from 'react-native'
 import * as Expo from 'expo';
-class SignIn extends React.Component {
-  signInWithGoogleAsync=async()=> {
+class InitScreen extends React.Component {
+
+
+  signInWithGoogleAsync = async () => {
     try {
       const result = await Expo.Google.logInAsync({
         androidClientId: '517235184328-tgvsi39epm24edn7rm02njmakmhcvmsq.apps.googleusercontent.com',
@@ -11,25 +13,27 @@ class SignIn extends React.Component {
       });
 
       if (result.type === 'success') {
-        this.props.navigation.navigate('Menu');
+        this.props.navigation.navigate('MenuScreen');
         // return result.accessToken;
       } else {
-        return {cancelled: true};
+        return { cancelled: true };
       }
-    } catch(e) {
-      return {error: true};
+    } catch (e) {
+      return { error: true };
     }
   }
-
+  componentWillMount() {
+    this.signInWithGoogleAsync();
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button 
-            onPress={this.signInWithGoogleAsync.bind(this)} 
-            title="Sign In With Google"
-            />
-          </View>
-        );
+      <ActivityIndicator size="large" color="rgba(238,73,167,1)" />
+        <Text>
+          Waiting for authentication with Google Account
+        </Text>
+      </View>
+    );
   }
 }
-export default SignIn
+export default InitScreen
