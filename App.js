@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation'; // Version can be specified in package.json
+import { createStackNavigator, createAppContainer } from 'react-navigation'; 
 import MenuScreen from "./src/screens/scrMenu";
 import DetailsScreen from "./src/screens/scrDetails";
 import PhotoScreen from "./src/screens/scrPhoto"
@@ -10,6 +10,8 @@ import FilesScreen from "./src/screens/scrUploadedFiles"
 import SettingsScreen from "./src/screens/scrSettings"
 import GalleryScreen from "./src/screens/scrGallery"
 import InitScreen from "./src/screens/scrInit"
+
+
 const RootStack = createStackNavigator(
   {
     MenuScreen: MenuScreen,
@@ -25,13 +27,20 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'InitScreen',
+    headerMode: 'none',
+    navigationOptions: {
+        headerVisible: false,
+    }
   }
 );
 
 const AppContainer = createAppContainer(RootStack);
 
 export default class App extends React.Component {
+
   render() {
-    return <AppContainer />;
+    return (
+      <AppContainer />  
+    )
   }
 }

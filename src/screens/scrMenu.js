@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon2 from "react-native-vector-icons/AntDesign"
+
 const styles = StyleSheet.create({
   rowmenu: {
     flexDirection: 'row',
-    height: '33%',
+    flex:1,
     justifyContent: 'space-evenly',
   },
   buttons: {
@@ -17,19 +18,47 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  header: {
+    fontSize: 13
+  },
+  image: {
+    marginTop: 15,
+    width: 100,
+    height: 100,
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 3,
+    borderRadius: 150
   }
 
 });
 
 class MenuScreen extends React.Component {
   render() {
+    const { navigation } = this.props;
+    const signedIn= navigation.getParam('signedIn', '');
+    const  name= navigation.getParam('name', '');
+    const  photoUrl= navigation.getParam('photoUrl', '');
     return (
-      <View style={{ flex: 1, }}>
-        <View style={styles.rowmenu}>
+
+      <View style={{ flex: 1 }}>
+        <View style={[styles.container]}  >
+          <Text style={styles.header}>Welcome {name}</Text>
+          <Image style={styles.image} source={{ uri: photoUrl }} />
+        </View>       
+         <View style={styles.rowmenu}>
           <TouchableOpacity
             style={styles.buttons}
             onPress={() => this.props.navigation.navigate('DocumentUp')}>
-            <Text style={styles.text}>Documents</Text>
+            <Text style={styles.text}>
+              Documents
+            </Text>
             <Icon2 name="addfile" size={40} color='black' />
           </TouchableOpacity>
 
@@ -76,7 +105,7 @@ class MenuScreen extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
-    );
+    )
   }
 }
 
