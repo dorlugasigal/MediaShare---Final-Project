@@ -1,44 +1,50 @@
 import React from 'react';
-import DetailsScreen from "./src/Screens/scrDetails";
-import PhotoScreen from "./src/Screens/scrPhoto"
-import DocumentScreen from "./src/Screens/scrDocument"
-import AudioScreen from "./src/Screens/scrAudio"
-import ScheduleScreen from "./src/Screens/scrSchedule"
-import FilesScreen from "./src/Screens/scrUploadedFiles"
-import SettingsScreen from "./src/Screens/scrSettings"
-import GalleryScreen from "./src/Screens/scrGallery"
-import LoginSplashScreen from "./src/Screens/scrLoginSplash"
-import MenuScreen from "./src/Screens/scrMenu"
-import { createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 
+import LoginSplashScreen from "./src/Screens/Login/scrLoginSplash"
 
+import MainScreen from "./src/Screens/scrMain"
+import AudioScreen from "./src/Screens/MediaUploadModules/scrAudio"
+import DocumentScreen from "./src/Screens/MediaUploadModules/scrDocument"
+import GalleryScreen from "./src/Screens/MediaUploadModules/scrGallery"
+import PhotoScreen from "./src/Screens/MediaUploadModules/scrPhoto"
 
-const AuthStack = createStackNavigator({
-  LoginSplashScreen: LoginSplashScreen 
-});
-const AppStack = createStackNavigator({ 
-  MenuScreen:MenuScreen,
-  DetailsScreen: DetailsScreen,
-  PhotoScreen: PhotoScreen,
-  DocumentScreen: DocumentScreen,
-  AudioScreen: AudioScreen,
+import { createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
+
+// const AppStack = createStackNavigator({
+//   MainScreen: MainScreen,
+//   PhotoScreen: PhotoScreen,
+//   DocumentScreen: DocumentScreen,
+//   AudioScreen: AudioScreen,
+//   GalleryScreen: GalleryScreen
+
+// },
+//   { headerMode: 'none' }
+// );
+
+import { createDrawerNavigator   } from 'react-navigation';
+
+import AboutScreen from "./Menu/scrAbout"
+import GroupsScreen from "./Menu/scrGroups"
+import InviteAFriendScreen from ".//Menu/scrInviteAFriend"
+import ScheduleScreen from "./Menu/scrSchedule"
+
+const SideMenuDrawer = createDrawerNavigator({
+  InviteAFriendScreen: InviteAFriendScreen,
+  AboutScreen: AboutScreen,
   ScheduleScreen: ScheduleScreen,
-  SettingsScreen: SettingsScreen,
-  FilesScreen: FilesScreen,
-  GalleryScreen: GalleryScreen
-   },{headerMode: 'none'});
+  GroupsScreen: GroupsScreen
+});
 
-
-const Root= createAppContainer(createSwitchNavigator(
+const Root = createAppContainer(createSwitchNavigator(
   {
-    AuthStack:AuthStack,
-    AppStack:AppStack
+    LoginSplashScreen: LoginSplashScreen,
+    MainScreen: MainScreen
   },
   {
-    initialRouteName: 'AuthStack',
+    initialRouteName: 'LoginSplashScreen',
     headerMode: 'none',
     navigationOptions: {
-        headerVisible: false,
+      headerVisible: false,
     }
   }
 ));
@@ -46,7 +52,7 @@ const Root= createAppContainer(createSwitchNavigator(
 export default class App extends React.Component {
   render() {
     return (
-      <Root/>  
+      <Root />
     )
   }
 }

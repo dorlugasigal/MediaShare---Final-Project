@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native'
 
-class FilesScreen extends React.Component {
+class AboutScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Uploaded Files</Text>
+        <Text>About</Text>
       </View>
     );
   }
 }
-export default FilesScreen
+export default AboutScreen

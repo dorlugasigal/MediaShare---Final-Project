@@ -1,8 +1,25 @@
 import React from 'react';
-import { Alert, Image, View, Text, StyleSheet, TouchableOpacity, Button, Dimensions } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon2 from "react-native-vector-icons/AntDesign"
+
 import SlidingUpPanel from 'rn-sliding-up-panel';
+
+import { createDrawerNavigator   } from 'react-navigation';
+
+import AboutScreen from "./Menu/scrAbout"
+import GroupsScreen from "./Menu/scrGroups"
+import InviteAFriendScreen from ".//Menu/scrInviteAFriend"
+import ScheduleScreen from "./Menu/scrSchedule"
+
+const SideMenuDrawer = createDrawerNavigator({
+  InviteAFriendScreen: InviteAFriendScreen,
+  AboutScreen: AboutScreen,
+  ScheduleScreen: ScheduleScreen,
+  GroupsScreen: GroupsScreen
+});
+
+
 
 const styles = StyleSheet.create({
   rowmenu: {
@@ -61,51 +78,28 @@ const styles = StyleSheet.create({
 
 });
 
-class MenuScreen extends React.Component {
+
+class MainScreen extends React.Component {
   state = {
     visible: false
   }
-  
+
   render() {
     const window = Dimensions.get('window');
     const { navigation } = this.props;
     const signedIn = global.signedIn;
     const name = global.name;
     const photoUrl = global.photoUrl;
-    
+
     return (
 
       <View style={{ flex: 1 }}>
+        <SideMenuDrawer />
         <View style={[styles.container]}  >
           <Text style={styles.header}>Welcome {name}</Text>
           <Image style={styles.image} source={{ uri: photoUrl }} />
         </View>
-        <View style={styles.rowmenu}>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('ScheduleScreen')}
-          >
-            <Text style={styles.text}>Schedule</Text>
-            <Icon name="schedule" size={40} color='black' />
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.rowmenu}>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('SettingsScreen')}
-          >
-            <Text style={styles.text}>Settings</Text>
-            <Icon name="settings" size={40} color='black' />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => this.props.navigation.navigate('FilesScreen')}
-          >
-            <Text style={styles.text}>Uploaded Files</Text>
-            <Icon name="cloud-upload" size={40} color='black' />
-          </TouchableOpacity>
-        </View>
         <View style={styles.addButton}>
           {/* add-button  */}
           <TouchableOpacity
@@ -113,6 +107,7 @@ class MenuScreen extends React.Component {
             <Icon name="add-circle" size={60} color='#0E2E49' />
           </TouchableOpacity>
         </View>
+
         <SlidingUpPanel
           visible={this.state.visible}
           startCollapsed={true}
@@ -121,6 +116,7 @@ class MenuScreen extends React.Component {
           allowDragging={false}
         >
           <View style={styles.panelcontainer}>
+
             <View style={styles.panelrowmenu}>
               <TouchableOpacity
                 style={styles.panelbuttons}
@@ -128,6 +124,7 @@ class MenuScreen extends React.Component {
                 <Text style={styles.text}>Documents</Text>
                 <Icon2 name="addfile" size={40} color='black' />
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.panelbuttons}
                 onPress={() => this.props.navigation.navigate('PhotoScreen')}>
@@ -135,6 +132,7 @@ class MenuScreen extends React.Component {
                 <Icon name="add-a-photo" size={40} color='black' />
               </TouchableOpacity>
             </View>
+
             <View style={styles.panelrowmenu}>
               <TouchableOpacity
                 style={styles.panelbuttons}
@@ -142,6 +140,7 @@ class MenuScreen extends React.Component {
                 <Text style={styles.text}>Audio</Text>
                 <Icon name="audiotrack" size={40} color='black' />
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.panelbuttons}
                 onPress={() => this.props.navigation.navigate('GalleryScreen')}>
@@ -149,6 +148,7 @@ class MenuScreen extends React.Component {
                 <Icon name="photo-library" size={40} color='black' />
               </TouchableOpacity>
             </View>
+
           </View>
         </SlidingUpPanel>
       </View>
@@ -157,4 +157,4 @@ class MenuScreen extends React.Component {
   }
 }
 
-export default MenuScreen;
+export default MainScreen;

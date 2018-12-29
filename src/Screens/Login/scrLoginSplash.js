@@ -41,7 +41,7 @@ class LoginSplashScreen extends React.Component {
         global.signedIn = true;
         global.name = result.user.name;
         global.photoUrl = result.user.photoUrl;
-        this.props.navigation.navigate('AppStack');
+        this.props.navigation.navigate('MainScreen');
       } else {
         return { cancelled: true };
       }

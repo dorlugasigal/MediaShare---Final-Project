@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native'
 
-class SettingsScreen extends React.Component {
+class InviteAFriendScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Settings</Text>
+        <Text>InviteAFriend</Text>
       </View>
     );
   }
 }
-export default SettingsScreen
+export default InviteAFriendScreen
