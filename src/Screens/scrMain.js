@@ -9,7 +9,7 @@ import { createDrawerNavigator   } from 'react-navigation';
 
 import AboutScreen from "./Menu/scrAbout"
 import GroupsScreen from "./Menu/scrGroups"
-import InviteAFriendScreen from ".//Menu/scrInviteAFriend"
+import InviteAFriendScreen from "./Menu/scrInviteAFriend"
 import ScheduleScreen from "./Menu/scrSchedule"
 
 const SideMenuDrawer = createDrawerNavigator({
@@ -94,7 +94,7 @@ class MainScreen extends React.Component {
     return (
 
       <View style={{ flex: 1 }}>
-        <SideMenuDrawer />
+        {/* <SideMenuDrawer /> */}
         <View style={[styles.container]}  >
           <Text style={styles.header}>Welcome {name}</Text>
           <Image style={styles.image} source={{ uri: photoUrl }} />

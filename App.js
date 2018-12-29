@@ -21,19 +21,7 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer } from 
 //   { headerMode: 'none' }
 // );
 
-import { createDrawerNavigator   } from 'react-navigation';
 
-import AboutScreen from "./Menu/scrAbout"
-import GroupsScreen from "./Menu/scrGroups"
-import InviteAFriendScreen from ".//Menu/scrInviteAFriend"
-import ScheduleScreen from "./Menu/scrSchedule"
-
-const SideMenuDrawer = createDrawerNavigator({
-  InviteAFriendScreen: InviteAFriendScreen,
-  AboutScreen: AboutScreen,
-  ScheduleScreen: ScheduleScreen,
-  GroupsScreen: GroupsScreen
-});
 
 const Root = createAppContainer(createSwitchNavigator(
   {
