@@ -1,7 +1,8 @@
 import React from 'react';
 import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
-//import { NavigationActions, StackActions } from 'react-navigation'; 
 import * as Expo from 'expo';
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -21,16 +22,9 @@ const styles = StyleSheet.create({
     borderRadius: 150
   }
 })
-//const resetAction = StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate('MenuScreen', {
-//     signedIn: true,
-//     name: this.state.name,
-//     photoUrl: this.state.photoUrl
-//   })],
-// });
 
-class InitScreen extends React.Component {
+
+class LoginSplashScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = { signedIn: false, name: "", photoUrl: "" }
@@ -44,20 +38,10 @@ class InitScreen extends React.Component {
       });
 
       if (result.type === 'success') {
-
-        this.setState({
-          signedIn: true//,
-          // name: result.user.name,
-          // photoUrl: result.user.photoUrl
-        })
-        //this.props.navigation.dispatch(resetAction);
-
-        this.props.navigation.navigate('MenuScreen', {
-          signedIn: true,
-          name: result.user.name,
-          photoUrl: result.user.photoUrl
-        });
-        return result.accessToken;
+        global.signedIn = true;
+        global.name = result.user.name;
+        global.photoUrl = result.user.photoUrl;
+        this.props.navigation.navigate('AppStack');
       } else {
         return { cancelled: true };
       }
@@ -69,7 +53,7 @@ class InitScreen extends React.Component {
   componentDidMount() {
     this.signInWithGoogleAsync();
   }
- 
+
   render() {
     return (
       <View style={styles.container}>
@@ -90,4 +74,4 @@ class InitScreen extends React.Component {
     );
   }
 }
-export default InitScreen
+export default LoginSplashScreen
