@@ -1,25 +1,84 @@
 import React from 'react';
 import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialIcons"
-import Icon2 from "react-native-vector-icons/AntDesign"
+//import Icon from "@expo/vector-icons/Ionicons"
 
 import SlidingUpPanel from 'rn-sliding-up-panel';
 
-import { createDrawerNavigator   } from 'react-navigation';
+class MainScreen extends React.Component {
+  state = {
+    slideUpPanelvisible: false
+  }
 
-import AboutScreen from "./Menu/scrAbout"
-import GroupsScreen from "./Menu/scrGroups"
-import InviteAFriendScreen from "./Menu/scrInviteAFriend"
-import ScheduleScreen from "./Menu/scrSchedule"
+  render() {
+    const window = Dimensions.get('window');
+    const { navigation } = this.props;
+    const signedIn = global.signedIn;
+    const name = global.name;
+    const photoUrl = global.photoUrl;
 
-const SideMenuDrawer = createDrawerNavigator({
-  InviteAFriendScreen: InviteAFriendScreen,
-  AboutScreen: AboutScreen,
-  ScheduleScreen: ScheduleScreen,
-  GroupsScreen: GroupsScreen
-});
+    return (
 
+      <View style={{ flex: 1 }}>
+        <View style={[styles.container]}  >
+          <Text style={styles.header}>Welcome {name}</Text>
+          {/* <Image style={styles.image} source={{ uri: photoUrl }} /> */}
+        </View>
 
+        <View style={styles.addButton}>
+          {/* add-button  */}
+          <TouchableOpacity
+            onPress={() => this.setState({ slideUpPanelvisible: true })} >
+            <Icon name="add-circle" size={60} color='#0E2E49' />
+          </TouchableOpacity>
+        </View>
+
+        <SlidingUpPanel
+          visible={this.state.slideUpPanelvisible}
+          startCollapsed={true}
+          draggableRange={{ top: window.height * 0.4, bottom: 0 }}
+          onRequestClose={() => this.setState({ slideUpPanelvisible: false })}
+          allowDragging={true}
+        >
+          <View style={styles.panelcontainer}>
+
+            <View style={styles.panelrowmenu}>
+              <TouchableOpacity
+                style={styles.panelbuttons}
+                onPress={() => this.props.navigation.navigate('DocumentScreen')}>
+                <Text style={styles.text}>Documents</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.panelbuttons}
+                onPress={() => this.props.navigation.navigate('PhotoScreen')}>
+                <Text style={styles.text}>Photo</Text>
+                <Icon name="add-a-photo" size={40} color='black' />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.panelrowmenu}>
+              <TouchableOpacity
+                style={styles.panelbuttons}
+                onPress={() => this.props.navigation.navigate('AudioScreen')}>
+                <Text style={styles.text}>Audio</Text>
+                <Icon name="audiotrack" size={40} color='black' />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.panelbuttons}
+                onPress={() => this.props.navigation.navigate('GalleryScreen')}>
+                <Text style={styles.text}>Gallery</Text>
+                <Icon name="photo-library" size={40} color='black' />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </SlidingUpPanel>
+      </View>
+
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   rowmenu: {
@@ -77,84 +136,5 @@ const styles = StyleSheet.create({
   }
 
 });
-
-
-class MainScreen extends React.Component {
-  state = {
-    visible: false
-  }
-
-  render() {
-    const window = Dimensions.get('window');
-    const { navigation } = this.props;
-    const signedIn = global.signedIn;
-    const name = global.name;
-    const photoUrl = global.photoUrl;
-
-    return (
-
-      <View style={{ flex: 1 }}>
-        {/* <SideMenuDrawer /> */}
-        <View style={[styles.container]}  >
-          <Text style={styles.header}>Welcome {name}</Text>
-          <Image style={styles.image} source={{ uri: photoUrl }} />
-        </View>
-
-        <View style={styles.addButton}>
-          {/* add-button  */}
-          <TouchableOpacity
-            onPress={() => this.setState({ visible: true })} >
-            <Icon name="add-circle" size={60} color='#0E2E49' />
-          </TouchableOpacity>
-        </View>
-
-        <SlidingUpPanel
-          visible={this.state.visible}
-          startCollapsed={true}
-          draggableRange={{ top: window.height * 0.3, bottom: 0 }}
-          onRequestClose={() => this.setState({ visible: false })}
-          allowDragging={false}
-        >
-          <View style={styles.panelcontainer}>
-
-            <View style={styles.panelrowmenu}>
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('DocumentScreen')}>
-                <Text style={styles.text}>Documents</Text>
-                <Icon2 name="addfile" size={40} color='black' />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('PhotoScreen')}>
-                <Text style={styles.text}>Photo</Text>
-                <Icon name="add-a-photo" size={40} color='black' />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.panelrowmenu}>
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('AudioScreen')}>
-                <Text style={styles.text}>Audio</Text>
-                <Icon name="audiotrack" size={40} color='black' />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('GalleryScreen')}>
-                <Text style={styles.text}>Gallery</Text>
-                <Icon name="photo-library" size={40} color='black' />
-              </TouchableOpacity>
-            </View>
-
-          </View>
-        </SlidingUpPanel>
-      </View>
-
-    )
-  }
-}
 
 export default MainScreen;
