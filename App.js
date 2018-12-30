@@ -9,7 +9,6 @@ import GalleryScreen from "./src/Screens/MediaUploadModules/scrGallery"
 import PhotoScreen from "./src/Screens/MediaUploadModules/scrPhoto"
 
 import { createDrawerNavigator, createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
-
 import AboutScreen from "./src/Screens/Menu/scrAbout"
 import GroupsScreen from "./src/Screens/Menu/scrGroups"
 import InviteAFriendScreen from "./src/Screens/Menu/scrInviteAFriend"
@@ -39,8 +38,8 @@ const SideMenuDrawer = createDrawerNavigator({
           fontSize: 18
         }
       }
-    }
-  }
+    },
+  },
 );
 
 
@@ -77,7 +76,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     MainScreen: AppStack
   },
   {
-    initialRouteName: 'LoginSplashScreen',
+    initialRouteName: 'MainScreen',
   }
 ));
 

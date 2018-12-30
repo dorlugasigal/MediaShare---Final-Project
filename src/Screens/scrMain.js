@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import Icon from "react-native-vector-icons/MaterialIcons"
-//import Icon from "@expo/vector-icons/Ionicons"
+import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions,Modal } from 'react-native';
+// import Icon from "react-native-vector-icons/MaterialIcons"
+import Icon from "@expo/vector-icons/Ionicons"
 
 import SlidingUpPanel from 'rn-sliding-up-panel';
+import ActionButton from 'react-native-action-button';
 
 class MainScreen extends React.Component {
   state = {
@@ -22,58 +23,24 @@ class MainScreen extends React.Component {
       <View style={{ flex: 1 }}>
         <View style={[styles.container]}  >
           <Text style={styles.header}>Welcome {name}</Text>
-          {/* <Image style={styles.image} source={{ uri: photoUrl }} /> */}
+          <Image style={styles.image} source={{ uri: photoUrl }} />
         </View>
-
         <View style={styles.addButton}>
-          {/* add-button  */}
-          <TouchableOpacity
-            onPress={() => this.setState({ slideUpPanelvisible: true })} >
-            <Icon name="add-circle" size={60} color='#0E2E49' />
-          </TouchableOpacity>
+          <ActionButton buttonColor="#2465B5" size={40}>
+          <ActionButton.Item buttonColor='#71777F' title="Add Photo" onPress={() => console.log("notes tapped!")}>
+            <Icon  name="md-camera" size={25} color= "white" />
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#338EFF' title="Add Document" onPress={() => {}}>
+            <Icon name="md-document" size={25} color= "white"/>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#8CBFFF' title="Add audio" onPress={() => {}}>
+            <Icon name="md-mic" size={25}color= "white"/>
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#163D6E' title="Gallery" onPress={() => {}}>
+            <Icon name="md-images" size={25}color= "white"  />
+          </ActionButton.Item>
+        </ActionButton>
         </View>
-
-        <SlidingUpPanel
-          visible={this.state.slideUpPanelvisible}
-          startCollapsed={true}
-          draggableRange={{ top: window.height * 0.4, bottom: 0 }}
-          onRequestClose={() => this.setState({ slideUpPanelvisible: false })}
-          allowDragging={true}
-        >
-          <View style={styles.panelcontainer}>
-
-            <View style={styles.panelrowmenu}>
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('DocumentScreen')}>
-                <Text style={styles.text}>Documents</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('PhotoScreen')}>
-                <Text style={styles.text}>Photo</Text>
-                <Icon name="add-a-photo" size={40} color='black' />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.panelrowmenu}>
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('AudioScreen')}>
-                <Text style={styles.text}>Audio</Text>
-                <Icon name="audiotrack" size={40} color='black' />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.panelbuttons}
-                onPress={() => this.props.navigation.navigate('GalleryScreen')}>
-                <Text style={styles.text}>Gallery</Text>
-                <Icon name="photo-library" size={40} color='black' />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </SlidingUpPanel>
       </View>
 
     )
@@ -95,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    height: '50%',
+    height: '40%',
   },
   buttons: {
     justifyContent: 'center',
@@ -122,6 +89,7 @@ const styles = StyleSheet.create({
   panelcontainer: {
     height: '30%',
     backgroundColor: "#fff",
+    borderWidth: 2,
   },
   header: {
     fontSize: 13
