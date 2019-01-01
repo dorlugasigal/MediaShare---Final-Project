@@ -68,8 +68,6 @@ const AppStack = createStackNavigator({
   }
 );
 
-
-
 const AppContainer = createAppContainer(createSwitchNavigator(
   {
     LoginSplashScreen: LoginSplashScreen,

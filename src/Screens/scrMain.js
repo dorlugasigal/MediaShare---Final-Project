@@ -1,10 +1,10 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions,Modal } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions, Modal } from 'react-native';
 // import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon from "@expo/vector-icons/Ionicons"
-
-import SlidingUpPanel from 'rn-sliding-up-panel';
+import { FloatingAction } from 'react-native-floating-action';
 import ActionButton from 'react-native-action-button';
+
 
 class MainScreen extends React.Component {
   state = {
@@ -25,21 +25,21 @@ class MainScreen extends React.Component {
           <Text style={styles.header}>Welcome {name}</Text>
           <Image style={styles.image} source={{ uri: photoUrl }} />
         </View>
-        <View style={styles.addButton}>
-          <ActionButton buttonColor="#2465B5" size={40}>
-          <ActionButton.Item buttonColor='#71777F' title="Add Photo" onPress={() => console.log("notes tapped!")}>
-            <Icon  name="md-camera" size={25} color= "white" />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#338EFF' title="Add Document" onPress={() => {}}>
-            <Icon name="md-document" size={25} color= "white"/>
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#8CBFFF' title="Add audio" onPress={() => {}}>
-            <Icon name="md-mic" size={25}color= "white"/>
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#163D6E' title="Gallery" onPress={() => {}}>
-            <Icon name="md-images" size={25}color= "white"  />
-          </ActionButton.Item>
-        </ActionButton>
+        <View style={{ flex: 1 }}>
+          <ActionButton buttonColor="#338EFF" size={50}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => console.log("notes tapped!")}>
+              <Icon name="md-camera" size={25} color="white" />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add Document" size={40} onPress={() => { }}>
+              <Icon name="md-document" size={25} color="white" />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add audio" size={40} onPress={() => { }}>
+              <Icon name="md-mic" size={25} color="white" />
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor='#79a6d2' title="Gallery" size={40} onPress={() => { }}>
+              <Icon name="md-images" size={25} color="white" />
+            </ActionButton.Item>
+          </ActionButton>
         </View>
       </View>
 
