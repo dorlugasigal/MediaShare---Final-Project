@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions, Modal } from 'react-native';
+import { Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 // import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon from "@expo/vector-icons/Ionicons"
 import { FloatingAction } from 'react-native-floating-action';
@@ -21,10 +21,6 @@ class MainScreen extends React.Component {
     return (
 
       <View style={{ flex: 1 }}>
-        <View style={[styles.container]}  >
-          <Text style={styles.header}>Welcome {name}</Text>
-          <Image style={styles.image} source={{ uri: photoUrl }} />
-        </View>
         <View style={{ flex: 1 }}>
           <ActionButton buttonColor="#338EFF" size={50}>
             <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => console.log("notes tapped!")}>

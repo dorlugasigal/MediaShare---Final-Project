@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 class LoginSplashScreen extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { signedIn: false, name: "", photoUrl: "" }
+    this.state = { signedIn: false, name: "", photoUrl: "",email: "" }
   }
   signInWithGoogleAsync = async () => {
     try {
@@ -41,6 +41,7 @@ class LoginSplashScreen extends React.Component {
         global.signedIn = true;
         global.name = result.user.name;
         global.photoUrl = result.user.photoUrl;
+        global.email = result.user.email;
         this.props.navigation.navigate('MainScreen');
       } else {
         return { cancelled: true };
