@@ -23,16 +23,16 @@ class MainScreen extends React.Component {
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ActionButton buttonColor="#338EFF" size={50}>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => console.log("notes tapped!")}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => this.props.navigation.navigate('PhotoScreen')}>
               <Icon name="md-camera" size={25} color="white" />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add Document" size={40} onPress={() => { }}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add Document" size={40} onPress={() => this.props.navigation.navigate('DocumentScreen')}>
               <Icon name="md-document" size={25} color="white" />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add audio" size={40} onPress={() => { }}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add audio" size={40} onPress={() => this.props.navigation.navigate('AudioScreen')}>
               <Icon name="md-mic" size={25} color="white" />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Gallery" size={40} onPress={() => { }}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Gallery" size={40} onPress={() => this.props.navigation.navigate('GalleryScreen')}>
               <Icon name="md-images" size={25} color="white" />
             </ActionButton.Item>
           </ActionButton>
