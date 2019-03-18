@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity,StyleSheet,Image } from 'react-native';
+import { Text, View, TouchableOpacity,StyleSheet,Image,CameraRoll } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import Icon from "@expo/vector-icons/Ionicons"
 export default class CameraScreen extends React.Component {
@@ -8,11 +8,12 @@ export default class CameraScreen extends React.Component {
     type: Camera.Constants.Type.back,
     flashMode: Camera.Constants.FlashMode.off,
     AutoFocus: Camera.Constants.AutoFocus.on,
-    image: null,
+    imageUri: null,
+    showLastPhoto:false,
   };
 
   async componentDidMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = await Permissions.askAsync(Permissions.CAMERA,Permissions.CAMERA_ROLL);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
  
@@ -24,15 +25,17 @@ export default class CameraScreen extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-          this.rendercamera()
+        this.state.showLastPhoto==false?
+        this.rendercamera():
+        this.renderLastPhoto()
       );
     }
   }
   rendercamera(){
     return(
-      <View style={{ flex: 1 }}>        
+      <View style={ styles.container}>        
           <Camera ref={ref => { this.camera = ref; }}
-            style={{ flex: 1 }}
+            style={styles.container}
             type={this.state.type}
             flashMode={this.state.flashMode}>
           </Camera>
@@ -40,9 +43,10 @@ export default class CameraScreen extends React.Component {
             style={{
               backgroundColor: 'black',
               flexDirection: 'row',
+              justifyContent:'space-between',
             }}>
             <TouchableOpacity
-              style={styles.touchableOpacity}
+              style={[styles.touchableOpacity,{left:'5%'}]}
               onPress={() => {
                 this.setState({
                   type: this.state.type === Camera.Constants.Type.back
@@ -54,7 +58,7 @@ export default class CameraScreen extends React.Component {
               <Icon name="ios-reverse-camera" size={40} color="white"/>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.touchableOpacity}
+              style={[styles.touchableOpacity,{right:'30%'}]}
               onPress={() => {
                 this.setState({
                   flashMode: this.state.flashMode === Camera.Constants.FlashMode.off
@@ -68,21 +72,19 @@ export default class CameraScreen extends React.Component {
               :<Icon name="ios-flash" size={40} color="white"/>}
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.touchableOpacity}
+              style={[styles.touchableOpacity,{right:'65%'}]}
               onPress={this._takePhoto.bind(this)}>
               <Icon name="ios-camera" size={40} color="white"/>
             </TouchableOpacity>
-            <TouchableOpacity 
-            style={{marginLeft:'30%'}}>
-                   
-            {this.state.image==null?
+            <TouchableOpacity onPress={()=>this.setState({showLastPhoto:true})}>        
+            {this.state.imageUri==null?
             <Image
-              source={require('../../../assets/side-background.png')}
-              style={{width:75,height:75,borderWidth:1, borderColor:'white'}}
+              source={require('../../../assets/No-Photo-Available.png')}
+              style={{width:75,height:75}}
             />:
             <Image
-              source={{uri: this.state.image.uri}}
-              style={{width:75,height:75,borderWidth:1, borderColor:'white'}}
+              source={{uri: this.state.imageUri}}
+              style={{width:75,height:75}}
               />
             }
             </TouchableOpacity>
@@ -90,10 +92,29 @@ export default class CameraScreen extends React.Component {
             </View>
     )
   }
+  renderLastPhoto(){
+    return(
+      <View style={styles.container}>
+        {this.state.imageUri==null?
+            <Image
+              source={require('../../../assets/No-Photo-Available.png')}
+              style={{height:'100%',width:'100%'}}
+            />:
+            <Image
+              source={{uri: this.state.imageUri}}
+              style={{height:'100%',width:'100%'}}              
+              />
+        }
+        <Icon name="md-reverse-camera" size={40} color="white"/>
+      </View>
+    )
+    this.setState({showLastPhoto:false});
+  }
   _takePhoto = async () => {
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({quality:1});
-      this.setState({image:photo})
+      let photo = await this.camera.takePictureAsync();
+      let savePhoto = await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
+      this.setState({imageUri:savePhoto})
     }
 
   }
@@ -103,12 +124,10 @@ const styles=StyleSheet.create({
   touchableOpacity:{
     flex: 0.2,
     alignItems: 'center',
-    borderWidth: 1,
+    justifyContent:'center', 
+    right:'20%'   
   },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000',
   }
 });
