@@ -5,7 +5,7 @@ import { createDrawerNavigator, createSwitchNavigator, createStackNavigator, cre
 
 import LoginSplashScreen from "./src/Screens/Login/scrLoginSplash"
 import MainScreen from "./src/Screens/scrMain"
-import AudioScreen from "./src/Screens/MediaUploadModules/scrAudio"
+import AudioScreen from "./src/Screens/MediaUploadModules/Recorder"
 import DocumentScreen from "./src/Screens/MediaUploadModules/scrDocument"
 import GalleryScreen from "./src/Screens/MediaUploadModules/scrGallery"
 import PhotoScreen from "./src/Screens/MediaUploadModules/scrPhoto"
@@ -106,7 +106,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     MainScreen: AppStack
   },
   {
-    initialRouteName: 'LoginSplashScreen',
+    initialRouteName: 'MainScreen',
   }
 ));
 
