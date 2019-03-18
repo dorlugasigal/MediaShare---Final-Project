@@ -92,7 +92,7 @@ const AppStack = createStackNavigator({
             size={35}
             style={{ paddingLeft: 10 }}
             color="white"
-            onPress={() => navigation.openDrawer()}
+            onPress={()=>navigation.toggleDrawer()}
           />
         )
       }
