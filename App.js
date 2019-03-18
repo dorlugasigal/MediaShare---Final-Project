@@ -106,7 +106,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     MainScreen: AppStack
   },
   {
-    initialRouteName: 'MainScreen',
+    initialRouteName: 'LoginSplashScreen',
   }
 ));
 
@@ -123,12 +123,12 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 17,
     fontWeight: 'bold',
-    fontFamily: 'Roboto',
+    // fontFamily: 'Roboto',
     color: 'white',
     marginLeft: 15
   },
   baseText: {
-    fontFamily: 'Roboto',
+    // fontFamily: 'Roboto',
     color: '#E5E8E8',
     marginLeft: 15
   }
