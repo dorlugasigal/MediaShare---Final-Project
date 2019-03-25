@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image, CameraRoll } from 'react-native';
-import { Camera, Permissions } from 'expo';
+import { Text, View, TouchableOpacity, StyleSheet, Image, CameraRoll,Platform,Dimensions } from 'react-native';
+import { Camera, Permissions,ImageManipulator  } from 'expo';
 import Icon from "@expo/vector-icons/Ionicons"
+var {height, width} = Dimensions.get('window');
 export default class CameraScreen extends React.Component {
   //type- back/front camera
   //flashmode: flash on/off
@@ -11,7 +12,7 @@ export default class CameraScreen extends React.Component {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     flashMode: Camera.Constants.FlashMode.off,
-    AutoFocus: Camera.Constants.AutoFocus.on,
+    AutoFocus: Camera.Constants.AutoFocus.off,
     imageUri: null,
     showLastPhoto: false,
   };
@@ -99,10 +100,12 @@ export default class CameraScreen extends React.Component {
           <Image
             source={require('../../../assets/No-Photo-Available.png')}
             style={styles.lastPhoto}
+            resizeMethod='resize'
           /> :
           <Image
-            source={{ uri: this.state.imageUri }}
+            source={{ uri: this.state.imageUri}}
             style={styles.lastPhoto}
+            resizeMethod='resize'
           />
         }
         <TouchableOpacity style={styles.touchableOpacity} onPress={() => this.setState({ showLastPhoto: false })}>
@@ -113,8 +116,15 @@ export default class CameraScreen extends React.Component {
   }
   _takePhoto = async () => {
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync();
-      let savePhoto = await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
+      let photo = await this.camera.takePictureAsync({quality: 1 });
+      let manipResult=null;
+      if(Platform.OS=='ios'){
+        manipResult = await ImageManipulator.manipulateAsync(
+       photo.uri,
+       [],
+       { format: 'jpg' }
+      );}
+      let savePhoto = Platform.OS=='ios'?await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo'): await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
       this.setState({ imageUri: savePhoto })
     }
 
