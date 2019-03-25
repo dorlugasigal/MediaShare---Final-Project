@@ -4,13 +4,34 @@ import { Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 import Icon from "@expo/vector-icons/Ionicons"
 import { FloatingAction } from 'react-native-floating-action';
 import ActionButton from 'react-native-action-button';
+import { ImagePicker, DocumentPicker } from 'expo';
 
 
 class MainScreen extends React.Component {
   state = {
     slideUpPanelvisible: false
   }
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
 
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+  _pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    alert(result.uri);
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ document: result.uri });
+    }
+  };
   render() {
     const window = Dimensions.get('window');
     const { navigation } = this.props;
@@ -26,13 +47,19 @@ class MainScreen extends React.Component {
             <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => this.props.navigation.navigate('PhotoScreen')}>
               <Icon name="md-camera" size={25} color="white" />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add Document" size={40} onPress={() => this.props.navigation.navigate('DocumentScreen')}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Add Document" size={40} onPress={() =>
+              //this.props.navigation.navigate('DocumentScreen')
+              this._pickDocument()
+            }>
               <Icon name="md-document" size={25} color="white" />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#79a6d2' title="Add audio" size={40} onPress={() => this.props.navigation.navigate('AudioScreen')}>
               <Icon name="md-mic" size={25} color="white" />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Gallery" size={40} onPress={() => this.props.navigation.navigate('GalleryScreen')}>
+            <ActionButton.Item buttonColor='#79a6d2' title="Gallery" size={40} onPress={() =>
+              //this.props.navigation.navigate('GalleryScreen')
+              this._pickImage()
+            }>
               <Icon name="md-images" size={25} color="white" />
             </ActionButton.Item>
           </ActionButton>
