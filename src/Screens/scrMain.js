@@ -38,6 +38,7 @@ class MainScreen extends React.Component {
     const signedIn = global.signedIn;
     const name = global.name;
     const photoUrl = global.photoUrl;
+    const accessToken = global.accessToken;
 
     return (
 

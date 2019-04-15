@@ -73,7 +73,6 @@ const SideMenuDrawer = createDrawerNavigator({
 );
 
 
-
 const AppStack = createStackNavigator({
   MainScreen: SideMenuDrawer,
   PhotoScreen: PhotoScreen,

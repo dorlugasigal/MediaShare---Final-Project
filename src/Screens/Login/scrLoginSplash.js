@@ -39,6 +39,7 @@ class LoginSplashScreen extends React.Component {
 
       if (result.type === 'success') {
         global.signedIn = true;
+        global.accessToken = result.accessToken;
         global.name = result.user.name;
         global.photoUrl = result.user.photoUrl;
         global.email = result.user.email;
