@@ -14,7 +14,7 @@ import GroupsScreen from "./src/Screens/Menu/scrGroups"
 import InviteAFriendScreen from "./src/Screens/Menu/scrInviteAFriend"
 import ScheduleScreen from "./src/Screens/Menu/scrSchedule"
 import Icon from "@expo/vector-icons/Ionicons"
-
+import GroupDetailScreen from './src/Screens/Menu/scrGroupDetails'
 class CoolBackgroundImage extends React.Component {
   render() {
 
@@ -35,7 +35,7 @@ const CustomDrawerComponent = (props) => (
           {global.email}
         </Text>
       </View>
-    </ImageBackground>    
+    </ImageBackground>
     <ScrollView>
       <DrawerItems {...props} />
     </ScrollView>
@@ -50,7 +50,7 @@ const SideMenuDrawer = createDrawerNavigator({
   'Invite A Friend Screen': InviteAFriendScreen,
   About: AboutScreen,
   Schedule: ScheduleScreen,
-  Groups: GroupsScreen
+  Groups: GroupsScreen,
 },
   {
     navigationOptions: ({ navigation }) => {
@@ -78,22 +78,37 @@ const AppStack = createStackNavigator({
   PhotoScreen: PhotoScreen,
   DocumentScreen: DocumentScreen,
   AudioScreen: AudioScreen,
-  GalleryScreen: GalleryScreen
-
+  GalleryScreen: GalleryScreen,
+  GroupDetailScreen: GroupDetailScreen
 },
   {
     headerMode: 'float',
     defaultNavigationOptions: ({ navigation }) => {
       return {
+
         headerLeft: (
-          <Icon
-            name="md-menu"
-            size={35}
-            style={{ paddingLeft: 10 }}
-            color="white"
-            onPress={()=>navigation.toggleDrawer()}
-          />
+          <View>
+            {navigation.toggleDrawer ?
+              (
+                <Icon
+                  name="md-menu"
+                  size={35}
+                  style={{ paddingLeft: 10 }}
+                  color="white"
+                  onPress={() => {
+                    if (navigation.toggleDrawer) {
+                      navigation.toggleDrawer();
+                    }
+                  }
+                  }
+                />
+              ):(<View></View>)
+            }
+          </View>
         )
+        , headerStyle: {
+          backgroundColor: '#2F95D6',
+        }
       }
     }
   }
@@ -105,7 +120,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     MainScreen: AppStack
   },
   {
-    initialRouteName: 'MainScreen',
+    initialRouteName: 'LoginSplashScreen',
   }
 ));
 
