@@ -1,6 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, FlatList, View, Text } from 'react-native'
+import { TouchableOpacity, FlatList, View, Text, StyleSheet } from 'react-native'
 const GLOBAL = require('../../Globals.js');
+import Icon from "@expo/vector-icons/Ionicons"
+
 
 class MyListItem extends React.PureComponent {
   constructor(props) {
@@ -9,13 +11,19 @@ class MyListItem extends React.PureComponent {
   _onPress = () => {
     this.props.onPressItem(this.props.name);
   };
+  _onPressRemove=()=>{
+    this.props.onPressRemove();
+  }
   render() {
     return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View>
-          <Text style={{ color: 'red' }}>{this.props.name}</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.contianer}>
+        <TouchableOpacity onPress={this._onPress}>
+          <Text style={styles.groupName}>{this.props.name}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this._onPressRemove}>
+          <Text style={styles.removeGroup}>Remove Group<Icon name="ios-trash" size={25} /></Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -57,6 +65,7 @@ class GroupsScreen extends React.Component {
   _renderItem = ({ item }) => (
     <MyListItem
       onPressItem={this._onPressItem}
+      onPressRemove={this._onPressRemove}
       id={item._id}
       admin={item.groupAdmin}
       name={item.groupName}
@@ -66,12 +75,14 @@ class GroupsScreen extends React.Component {
     // updater functions are preferred for transactional updates
     this.props.navigation.navigate('GroupDetailScreen', { groupName: name });
   };
+  _onPressRemove=()=>{
+    console.log('remove');
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>GroupsScreen</Text>
         <FlatList
-
           data={this.state.groups}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
@@ -80,4 +91,16 @@ class GroupsScreen extends React.Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  contianer: {
+    flex: 1,
+  },
+  groupName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  removeGroup:{
+    fontSize:14
+  }
+})
 export default GroupsScreen
