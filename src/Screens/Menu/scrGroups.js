@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, FlatList, View, Text, StyleSheet } from 'react-native'
+import { TouchableOpacity, FlatList, View, Text, StyleSheet,Button } from 'react-native'
 const GLOBAL = require('../../Globals.js');
 import Icon from "@expo/vector-icons/Ionicons"
 
@@ -32,7 +32,7 @@ class GroupsScreen extends React.Component {
     super(props);
     this.state = { groups: [], }
   }
-
+  
   getGroups() {
     console.log(`asking for api/GetGroups for ${global.email}`);
     return fetch(GLOBAL.API + 'getGroups', {
@@ -58,7 +58,7 @@ class GroupsScreen extends React.Component {
         console.error(error);
       });
   }
-  componentDidMount() {
+  componentWillMount() {
     this.getGroups();
   }
   _keyExtractor = (item, index) => item._id;
@@ -87,6 +87,7 @@ class GroupsScreen extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
+        <Button title={'Add Group'} style={styles.bottomStyle} onPress={()=>this.props.navigation.navigate('AddGroupScreen')}></Button>
       </View>
     );
   }
@@ -101,6 +102,12 @@ const styles = StyleSheet.create({
   },
   removeGroup:{
     fontSize:14
-  }
+  },
+  bottomStyle: {
+    bottom: 0,
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'center',
+},
 })
 export default GroupsScreen

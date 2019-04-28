@@ -15,6 +15,7 @@ import InviteAFriendScreen from "./src/Screens/Menu/scrInviteAFriend"
 import ScheduleScreen from "./src/Screens/Menu/scrSchedule"
 import Icon from "@expo/vector-icons/Ionicons"
 import GroupDetailScreen from './src/Screens/Menu/scrGroupDetails'
+import AddGroupScreen from './src/Screens/Menu/scrAddGroup'
 class CoolBackgroundImage extends React.Component {
   render() {
 
@@ -79,7 +80,8 @@ const AppStack = createStackNavigator({
   DocumentScreen: DocumentScreen,
   AudioScreen: AudioScreen,
   GalleryScreen: GalleryScreen,
-  GroupDetailScreen: GroupDetailScreen
+  GroupDetailScreen: GroupDetailScreen,
+  AddGroupScreen:AddGroupScreen,
 },
   {
     headerMode: 'float',
@@ -102,7 +104,14 @@ const AppStack = createStackNavigator({
                   }
                   }
                 />
-              ):(<View></View>)
+              ):(<Icon
+                name="md-arrow-round-back"
+                size={35}
+                style={{ paddingLeft: 10 }}
+                color="white"
+                onPress={() => navigation.goBack()
+                }
+              />)
             }
           </View>
         )
