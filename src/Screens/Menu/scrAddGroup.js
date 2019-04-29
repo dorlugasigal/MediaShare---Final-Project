@@ -3,15 +3,19 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 const GLOBAL = require('../../Globals.js');
 
 class AddGroup extends React.Component {
-    state = {
-        groupName: '',
-        groups: [],
+    constructor(props) {
+        super(props);
+        this.state = {
+            groupName: '',
+            groups: [],
+        }
     }
+
     handleGroupName = (text) => {
         this.setState({ groupName: text })
     }
 
-    AddGroupToDB(groupName) {
+    AddGroupToDB = (groupName) => {
         console.log(`add group api/addGroup for ${global.email} group name:${groupName}`);
         fetch(GLOBAL.API + 'addGroup', {
             method: 'POST',
@@ -29,6 +33,8 @@ class AddGroup extends React.Component {
             .then((response) =>
                 response.json())
             .then((responseJson) => {
+                console.log(JSON.stringify(responseJson));
+                console.log(JSON.stringify(this.state));
                 this.setState({
                     groups: responseJson
                 })

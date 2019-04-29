@@ -86,10 +86,9 @@ class GroupsScreen extends React.Component {
         console.error(error);
       });
   }
-  componentWillMount() {
+  componentDidMount() {
     this.getGroups();
-    this.checkUpdate()
-
+    this.checkUpdate();
   }
   _keyExtractor = (item, index) => item._id;
   _renderItem = ({ item }) => (
@@ -106,7 +105,6 @@ class GroupsScreen extends React.Component {
     this.props.navigation.navigate('GroupDetailScreen', { groupName: name })
   };
   _addGroup() {
-    console.log('here');
     this.props.navigation.navigate('AddGroupScreen')
   }
   _onPressRemove = (groupName) => {
@@ -114,15 +112,19 @@ class GroupsScreen extends React.Component {
   }
   checkUpdate() {
     if (!this.props.navigation.state.params) {
-      console.log('null')
       console.log(this.props.navigation.state)
       return;
     }
     else {
-      console.log('here')
-      this.setState({
-        groups: this.props.navigation.state.params.newGroup
-      })
+      if(this.props.navigation.state.params.hasOwnProperty('newGroup')){
+        console.log('this.props.navigation.state.params.newGroup')
+        this.setState({
+          groups: this.props.navigation.state.params.newGroup
+        })
+      }
+      else{
+        console.log("else");
+      }
     }
   }
   render() {
