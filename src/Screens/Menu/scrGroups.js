@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, FlatList, View, Text, StyleSheet,Button } from 'react-native'
+import { TouchableOpacity, FlatList, View, Text, StyleSheet, Button } from 'react-native'
 const GLOBAL = require('../../Globals.js');
 import Icon from "@expo/vector-icons/Ionicons"
 
@@ -11,8 +11,8 @@ class MyListItem extends React.PureComponent {
   _onPress = () => {
     this.props.onPressItem(this.props.name);
   };
-  _onPressRemove=()=>{
-    this.props.onPressRemove();
+  _onPressRemove = () => {
+    this.props.onPressRemove(this.props.name);
   }
   render() {
     return (
@@ -30,9 +30,9 @@ class MyListItem extends React.PureComponent {
 class GroupsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { groups: [], }
+    this.state = { groups: [], newGroup: '' }
   }
-  
+
   getGroups() {
     console.log(`asking for api/GetGroups for ${global.email}`);
     return fetch(GLOBAL.API + 'getGroups', {
@@ -58,8 +58,38 @@ class GroupsScreen extends React.Component {
         console.error(error);
       });
   }
+  removeItem(groupName) {
+    console.log(`asking for api/deleteGroup for ${global.email} group:${groupName}`);
+    return fetch(GLOBAL.API + 'deleteGroup', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'group': {
+          'groupName': groupName,
+          'groupAdmin': global.email,
+        }
+      })
+    })
+      .then((response) =>
+        response.json())
+      .then((responseJson) => {
+        console.log(responseJson.toString());
+        this.setState({
+          groups: responseJson
+        })
+        return responseJson;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   componentWillMount() {
     this.getGroups();
+    this.checkUpdate()
+
   }
   _keyExtractor = (item, index) => item._id;
   _renderItem = ({ item }) => (
@@ -73,10 +103,27 @@ class GroupsScreen extends React.Component {
   );
   _onPressItem = (name) => {
     // updater functions are preferred for transactional updates
-    this.props.navigation.navigate('GroupDetailScreen', { groupName: name });
+    this.props.navigation.navigate('GroupDetailScreen', { groupName: name })
   };
-  _onPressRemove=()=>{
-    console.log('remove');
+  _addGroup() {
+    console.log('here');
+    this.props.navigation.navigate('AddGroupScreen')
+  }
+  _onPressRemove = (groupName) => {
+    this.removeItem(groupName);
+  }
+  checkUpdate() {
+    if (!this.props.navigation.state.params) {
+      console.log('null')
+      console.log(this.props.navigation.state)
+      return;
+    }
+    else {
+      console.log('here')
+      this.setState({
+        groups: this.props.navigation.state.params.newGroup
+      })
+    }
   }
   render() {
     return (
@@ -84,10 +131,11 @@ class GroupsScreen extends React.Component {
         <Text>GroupsScreen</Text>
         <FlatList
           data={this.state.groups}
+          extraData={this.state.groups}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
-        <Button title={'Add Group'} style={styles.bottomStyle} onPress={()=>this.props.navigation.navigate('AddGroupScreen')}></Button>
+        <Button title={'Add Group'} style={styles.bottomStyle} onPress={() => this._addGroup()}></Button>
       </View>
     );
   }
@@ -100,14 +148,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  removeGroup:{
-    fontSize:14
+  removeGroup: {
+    fontSize: 14
   },
   bottomStyle: {
     bottom: 0,
     position: 'absolute',
     width: '100%',
     alignItems: 'center',
-},
+  },
 })
 export default GroupsScreen

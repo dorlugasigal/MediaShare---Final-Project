@@ -5,6 +5,7 @@ const GLOBAL = require('../../Globals.js');
 class AddGroup extends React.Component {
     state = {
         groupName: '',
+        groups: [],
     }
     handleGroupName = (text) => {
         this.setState({ groupName: text })
@@ -28,15 +29,17 @@ class AddGroup extends React.Component {
             .then((response) =>
                 response.json())
             .then((responseJson) => {
-                console.log(responseJson.toString());
-                return true;
+                this.setState({
+                    groups: responseJson
+                })
+                return responseJson;
             })
             .catch((error) => {
                 console.error(error);
             });
     }
 
-    AddNewGroup = async() => {
+    AddNewGroup = () => {
         if (!this.state.groupName) {
             alert("You must enter a Group Name ");
             return;
@@ -48,13 +51,8 @@ class AddGroup extends React.Component {
                 return;
             }
             else {
-               let result= await this.AddGroupToDB(this.state.groupName)
-               if(result){
-                   alert('failed')
-               }
-               else{
-                this.props.navigation.navigate('Groups');
-               }
+                this.AddGroupToDB(this.state.groupName);
+                this.props.navigation.navigate('Groups', { newGroup: this.state.groups });
             }
         }
     }

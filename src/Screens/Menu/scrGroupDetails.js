@@ -22,10 +22,6 @@ class MyListItem extends React.PureComponent {
     }
 }
 
-
-
-
-
 class GroupDetailScreen extends React.Component {
     constructor(props) {
         super(props);
