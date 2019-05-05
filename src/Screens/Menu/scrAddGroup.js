@@ -33,16 +33,18 @@ class AddGroup extends React.Component {
             .then((response) =>
                 response.json())
             .then((responseJson) => {
-                console.log(JSON.stringify(responseJson));
-                console.log(JSON.stringify(this.state));
-                this.setState({
-                    groups: responseJson
-                })
+                //console.log(JSON.stringify(responseJson));
+               // console.log(JSON.stringify(this.state));
+               this.props.navigation.pop();
+                // this.props.navigation.navigate('Groups', { newGroup: responseJson });
                 return responseJson;
             })
             .catch((error) => {
                 console.error(error);
             });
+    }
+    componentDidUpdate(){
+
     }
 
     AddNewGroup = () => {
@@ -51,15 +53,15 @@ class AddGroup extends React.Component {
             return;
         }
         else {
-            let reg = /([a-z]*[A-Z]+[0-9]*.{3,21})/;
-            if (!this.state.groupName.match(reg)) {
-                alert("Your group name is invalid\nThe name must be with 1 Upper letter and 4-20 charaters");
-                return;
-            }
-            else {
-                this.AddGroupToDB(this.state.groupName);
-                this.props.navigation.navigate('Groups', { newGroup: this.state.groups });
-            }
+            // let reg = /([a-z]*[A-Z]+[0-9]*.{3,21})/;
+            // if (!this.state.groupName.match(reg)) {
+            //     alert("Your group name is invalid\nThe name must be with 1 Upper letter and 4-20 charaters");
+            //     return;
+            // }
+            // else {
+            this.AddGroupToDB(this.state.groupName);
+            
+            // }
         }
     }
     render() {

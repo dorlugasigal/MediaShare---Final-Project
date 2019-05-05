@@ -1,4 +1,5 @@
 import React from 'react';
+import {withNavigation } from 'react-navigation';
 import { TouchableOpacity, FlatList, View, Text, StyleSheet, Button } from 'react-native'
 const GLOBAL = require('../../Globals.js');
 import Icon from "@expo/vector-icons/Ionicons"
@@ -76,7 +77,7 @@ class GroupsScreen extends React.Component {
       .then((response) =>
         response.json())
       .then((responseJson) => {
-        console.log(responseJson.toString());
+        //console.log(responseJson.toString());
         this.setState({
           groups: responseJson
         })
@@ -86,9 +87,20 @@ class GroupsScreen extends React.Component {
         console.error(error);
       });
   }
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
   componentDidMount() {
+
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      this.getGroups();    
+    });
+
     this.getGroups();
     this.checkUpdate();
+
   }
   _keyExtractor = (item, index) => item._id;
   _renderItem = ({ item }) => (
@@ -110,19 +122,20 @@ class GroupsScreen extends React.Component {
   _onPressRemove = (groupName) => {
     this.removeItem(groupName);
   }
+ 
   checkUpdate() {
     if (!this.props.navigation.state.params) {
       console.log(this.props.navigation.state)
       return;
     }
     else {
-      if(this.props.navigation.state.params.hasOwnProperty('newGroup')){
+      if (this.props.navigation.state.params.hasOwnProperty('newGroup')) {
         console.log('this.props.navigation.state.params.newGroup')
         this.setState({
           groups: this.props.navigation.state.params.newGroup
         })
       }
-      else{
+      else {
         console.log("else");
       }
     }
@@ -160,4 +173,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
-export default GroupsScreen
+export default withNavigation(GroupsScreen)
