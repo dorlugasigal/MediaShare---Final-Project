@@ -77,7 +77,6 @@ class GroupsScreen extends React.Component {
       .then((response) =>
         response.json())
       .then((responseJson) => {
-        //console.log(responseJson.toString());
         this.setState({
           groups: responseJson
         })
@@ -97,10 +96,7 @@ class GroupsScreen extends React.Component {
     this.focusListener = this.props.navigation.addListener("didFocus", () => {
       this.getGroups();    
     });
-
     this.getGroups();
-    this.checkUpdate();
-
   }
   _keyExtractor = (item, index) => item._id;
   _renderItem = ({ item }) => (
@@ -121,24 +117,6 @@ class GroupsScreen extends React.Component {
   }
   _onPressRemove = (groupName) => {
     this.removeItem(groupName);
-  }
- 
-  checkUpdate() {
-    if (!this.props.navigation.state.params) {
-      console.log(this.props.navigation.state)
-      return;
-    }
-    else {
-      if (this.props.navigation.state.params.hasOwnProperty('newGroup')) {
-        console.log('this.props.navigation.state.params.newGroup')
-        this.setState({
-          groups: this.props.navigation.state.params.newGroup
-        })
-      }
-      else {
-        console.log("else");
-      }
-    }
   }
   render() {
     return (

@@ -69,8 +69,11 @@ class GroupDetailScreen extends React.Component {
                 console.error(error);
             });
     }
-    componentDidMount() {
+    componentDidMount() {        
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
         this.getGroupDetails();
+      });
+      this.getGroupDetails();
     }
 
     render() {

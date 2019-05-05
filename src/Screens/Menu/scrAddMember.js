@@ -1,23 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 const GLOBAL = require('../../Globals.js');
 
-class AddGroup extends React.Component {
+
+class AddMember extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            groupName: '',
-            groups: [],
+            groupMemberName: '',
         }
     }
-
-    handleGroupName = (text) => {
-        this.setState({ groupName: text })
+    handleGroupMemberName = (text) => {
+        this.setState({ groupMemberName: text })
     }
-
-    AddGroupToDB = (groupName) => {
+    AddGroupMemberToDB = (groupName) => {
         console.log(`add group api/addGroup for ${global.email} group name:${groupName}`);
-        fetch(GLOBAL.API + 'addGroup', {
+        fetch(GLOBAL.API + 'addMemberToGroup', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
@@ -33,32 +31,20 @@ class AddGroup extends React.Component {
             .then((response) =>
                 response.json())
             .then((responseJson) => {
-                //console.log(JSON.stringify(responseJson));
-               // console.log(JSON.stringify(this.state));
-               this.props.navigation.pop();
-                // this.props.navigation.navigate('Groups', { newGroup: responseJson });
+                this.props.navigation.pop();
                 return responseJson;
             })
             .catch((error) => {
                 console.error(error);
             });
     }
-
-    AddNewGroup = () => {
-        if (!this.state.groupName) {
+    AddNewGroupMember = () => {
+        if (!this.state.groupMemberName) {
             alert("You must enter a Group Name ");
             return;
         }
         else {
-            // let reg = /([a-z]*[A-Z]+[0-9]*.{3,21})/;
-            // if (!this.state.groupName.match(reg)) {
-            //     alert("Your group name is invalid\nThe name must be with 1 Upper letter and 4-20 charaters");
-            //     return;
-            // }
-            // else {
-            this.AddGroupToDB(this.state.groupName);
-            
-            // }
+            this.AddGroupMemberToDB(this.state.groupMemberName);
         }
     }
     render() {
@@ -66,15 +52,15 @@ class AddGroup extends React.Component {
             <View style={styles.container}>
                 <TextInput style={styles.input}
                     underlineColorAndroid="transparent"
-                    placeholder="Group Name"
+                    placeholder="Enter Group Member Name"
                     placeholderTextColor="#9a73ef"
                     autoCapitalize="none"
-                    onChangeText={this.handleGroupName}
+                    onChangeText={this.handleGroupMemberName}
                 />
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
-                        () => this.AddNewGroup()
+                        () => this.AddNewGroupMember()
                     }>
                     <Text style={styles.submitButtonText}> Submit </Text>
                 </TouchableOpacity>
@@ -112,5 +98,4 @@ const styles = StyleSheet.create({
         color: 'white'
     },
 })
-
-export default AddGroup
+export default AddMember
