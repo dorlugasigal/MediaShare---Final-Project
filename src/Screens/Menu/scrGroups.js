@@ -97,6 +97,7 @@ class GroupsScreen extends React.Component {
     this.focusListener = this.props.navigation.addListener("didFocus", () => {
       this.getGroups();    
     });
+    
 
     this.getGroups();
     this.checkUpdate();

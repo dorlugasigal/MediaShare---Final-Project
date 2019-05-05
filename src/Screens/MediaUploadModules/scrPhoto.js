@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image, CameraRoll,Platform,Dimensions } from 'react-native';
-import { Camera, Permissions,ImageManipulator  } from 'expo';
+import { Text, View, TouchableOpacity, StyleSheet, Image, CameraRoll, Platform, Dimensions } from 'react-native';
+import { Camera, Permissions, ImageManipulator } from 'expo';
 import Icon from "@expo/vector-icons/Ionicons"
-var {height, width} = Dimensions.get('window');
+const GLOBAL = require('../../Globals.js');
+var { height, width } = Dimensions.get('window');
 export default class CameraScreen extends React.Component {
   //type- back/front camera
   //flashmode: flash on/off
@@ -103,7 +104,7 @@ export default class CameraScreen extends React.Component {
             resizeMethod='resize'
           /> :
           <Image
-            source={{ uri: this.state.imageUri}}
+            source={{ uri: this.state.imageUri }}
             style={styles.lastPhoto}
             resizeMethod='resize'
           />
@@ -114,22 +115,64 @@ export default class CameraScreen extends React.Component {
       </View>
     )
   }
+
+  createFormData = (photo, body) => {
+    const data = new FormData();
+
+    data.append("photo", {
+      name: photo.fileName,
+      type: photo.type,
+      uri:
+        Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+    });
+
+    Object.keys(body).forEach(key => {
+      data.append(key, body[key]);
+    });
+    return data;
+  };
+  handleUploadPhoto = () => {
+    fetch(GLOBAL.API + 'AddPhoto', {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        'Content-Type': 'multipart/form-data'
+      },
+      body: this.state.data
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log("upload succes", response);
+        alert("Upload success!");
+        this.setState({ photo: null });
+      })
+      .catch(error => {
+        console.log("upload error", error);
+        alert("Upload failed!");
+      });
+  };
   _takePhoto = async () => {
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({quality: 1 });
-      let manipResult=null;
-      if(Platform.OS=='ios'){
+      let photo = await this.camera.takePictureAsync({ quality: 1 });
+      let manipResult = null;
+      if (Platform.OS == 'ios') {
         manipResult = await ImageManipulator.manipulateAsync(
-       photo.uri,
-       [],
-       { format: 'jpg' }
-      );}
-      let savePhoto = Platform.OS=='ios'?await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo'): await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
-      this.setState({ imageUri: savePhoto })
+          photo.uri,
+          [],
+          { format: 'jpg' }
+        );
+      }
+      let savePhoto = Platform.OS == 'ios' ? await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo') : await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
+      this.setState({
+        imageUri: savePhoto,
+        data: this.createFormData(photo, { userId: "123" })
+      })
+      this.handleUploadPhoto();
     }
 
   }
 }
+
 
 const styles = StyleSheet.create({
   touchableOpacity: {
