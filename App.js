@@ -129,7 +129,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     MainScreen: AppStack
   },
   {
-    initialRouteName: 'LoginSplashScreen',
+    initialRouteName: 'MainScreen',
   }
 ));
 
