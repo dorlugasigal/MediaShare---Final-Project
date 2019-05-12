@@ -1,10 +1,33 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
+import { ScrollView, FlatList, Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 // import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon from "@expo/vector-icons/Ionicons"
 import { FloatingAction } from 'react-native-floating-action';
 import ActionButton from 'react-native-action-button';
 import { ImagePicker, DocumentPicker } from 'expo';
+
+
+
+class MyListItem extends React.PureComponent {
+  constructor(props) {
+    console.log("inside constructor");
+    super(props);
+  }
+
+  _onPress = () => {
+    this.props.onPressItem(this.props.name);
+  };
+
+  render() {
+    return (
+      <View style={styles.subjectContainer}>
+        <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>{this.props.name}</Text>
+        <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>Items: {this.props.amount}</Text>
+      </View>
+    );
+  }
+}
+
 
 
 class MainScreen extends React.Component {
@@ -32,6 +55,20 @@ class MainScreen extends React.Component {
       this.setState({ document: result.uri });
     }
   };
+
+  _keyExtractor = (item, index) => item._id;
+  _renderItem = ({ item }) => (
+    <MyListItem
+      onPressItem={this._onPressItem}
+      id={item._id}
+      name={item.name}
+      amount={item.media.length}
+    />
+  );
+  _onPressItem = (name) => {
+    alert("you pressed an item");
+  };
+
   render() {
     const window = Dimensions.get('window');
     const { navigation } = this.props;
@@ -43,6 +80,15 @@ class MainScreen extends React.Component {
     return (
 
       <View style={{ flex: 1 }}>
+        <Text style={{ color: '#338EFF', marginTop: 10, fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Your Items</Text>
+        <ScrollView>
+
+          <FlatList
+            data={global.subjects}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+          />
+        </ScrollView>
         <View style={{ flex: 1 }}>
           <ActionButton buttonColor="#338EFF" size={50}>
             <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => this.props.navigation.navigate('PhotoScreen')}>
@@ -72,6 +118,20 @@ class MainScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+
+  subjectContainer: {
+    flex: 1,
+    borderTopRightRadius: 50,
+    borderBottomRightRadius: 50,
+    marginRight: 15,
+    padding: 10,
+    paddingLeft: 20,
+    //marginLeft: 15,
+    marginTop: 15,
+    //width: '90%',
+    alignItems: 'flex-start',
+    backgroundColor: '#d9e6fc'
+  },
   rowmenu: {
     flexDirection: 'row',
     flex: 1,

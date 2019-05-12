@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
 import * as Expo from 'expo';
+const GLOBAL = require('../../Globals.js');
 
 
 const styles = StyleSheet.create({
@@ -43,7 +44,28 @@ class LoginSplashScreen extends React.Component {
         global.name = result.user.name;
         global.photoUrl = result.user.photoUrl;
         global.email = result.user.email;
-        this.props.navigation.navigate('MainScreen');
+
+        fetch(GLOBAL.API + 'GetUserSubjects', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            'user': result.user.email
+          })
+        })
+          .then((response) =>
+            response.json())
+          .then((responseJson) => {
+            console.log(JSON.stringify(responseJson.toString()));
+            global.subjects=responseJson;
+            this.props.navigation.navigate('MainScreen');
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
       } else {
         return { cancelled: true };
       }

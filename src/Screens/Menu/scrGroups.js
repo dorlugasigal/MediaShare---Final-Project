@@ -48,7 +48,7 @@ class GroupsScreen extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'groupAdmin': 'dorlugasigal@gmail.com'//global.email
+        'groupAdmin': global.email
       })
     })
       .then((response) =>
