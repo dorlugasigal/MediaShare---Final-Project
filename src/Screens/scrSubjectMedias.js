@@ -10,28 +10,23 @@ import { ImagePicker, DocumentPicker } from 'expo';
 
 class MyListItem extends React.PureComponent {
   constructor(props) {
-    console.log("inside constructor");
     super(props);
   }
 
   _onPress = () => {
-    this.props.onPressItem(this.props.name);
+    this.props.onPressItem(this.props.path);
   };
 
   render() {
     return (
       <View>
-        <TouchableOpacity onPress={this._onPress()}>
+        <TouchableOpacity onPress={this._onPress}>
           <View style={styles.mediasContainer}>
-            <Text style={styles.mediaText}>
-              {this.props.name}</Text>
-            <Text style={{
-              color: '#7695c9',
-              paddingLeft: 10,
-              fontWeight: 'bold',
-              fontSize: 20,
-            }}>
-              Items: {this.props.amount}</Text>
+            <Text style={styles.mediaText}>{this.props.id}</Text>
+            <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
+            <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
+            <Text style={styles.mediaText}>{this.props.type}</Text>
+            <Text style={styles.mediaText}>{this.props.path}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -41,17 +36,19 @@ class MyListItem extends React.PureComponent {
 
 class SubjectMedias extends React.Component {
 
-  _keyExtractor = (item, index) => item._id;
+  _keyExtractor = (item, index) => item.id;
   _renderItem = ({ item }) => (
     <MyListItem
       onPressItem={this._onPressItem}
-      id={item._id}
-      name={item.name}
-      amount={item.media.length}
+      id={item.id}
+      uploadDate={item.uploadDate}
+      mediaUploader={item.mediaUploader}
+      type={item.type}
+      path={item.path}
     />
   );
-  _onPressItem = (name) => {
-    alert("you pressed an item");
+  _onPressItem = (path) => {
+    alert(`you asked for ${path}`);
   };
 
   render() {
@@ -65,19 +62,13 @@ class SubjectMedias extends React.Component {
     return (
 
       <View style={{ flex: 1 }}>
-        <Text style={{
-          color: '#338EFF',
-          marginTop: 10,
-          fontSize: 20,
-          fontWeight: 'bold',
-          alignSelf: 'center'
-        }}>
-          Medias:
+        <Text style={styles.title}>
+          {global.selectedSubject}:
            </Text>
         <ScrollView>
 
           <FlatList
-            data={global.subjects}
+            data={global.selectedSubjectMedia}
             keyExtractor={this._keyExtractor}
             renderItem={this._renderItem}
           />
@@ -90,7 +81,13 @@ class SubjectMedias extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
+  title: {
+    color: '#338EFF',
+    marginTop: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignSelf: 'center'
+  },
   mediasContainer: {
     flex: 1,
     borderTopRightRadius: 50,

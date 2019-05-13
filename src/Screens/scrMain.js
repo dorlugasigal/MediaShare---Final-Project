@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, FlatList, Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
+import { TouchableOpacity, ScrollView, FlatList, Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
 // import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon from "@expo/vector-icons/Ionicons"
 import { FloatingAction } from 'react-native-floating-action';
@@ -10,19 +10,25 @@ import { ImagePicker, DocumentPicker } from 'expo';
 
 class MyListItem extends React.PureComponent {
   constructor(props) {
-    console.log("inside constructor");
     super(props);
   }
 
   _onPress = () => {
-    this.props.onPressItem(this.props.name);
+    global.selectedSubjectMedia = this.props.media;
+    global.selectedSubject = this.props.name;
+    console.log(JSON.stringify(this.props.media));
+    this.props.onPressItem();
   };
 
   render() {
     return (
-      <View style={styles.subjectContainer}>
-        <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>{this.props.name}</Text>
-        <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>Items: {this.props.amount}</Text>
+      <View>
+        <TouchableOpacity onPress={this._onPress}>
+          <View style={styles.subjectContainer}>
+            <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>{this.props.name}</Text>
+            <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>Items: {this.props.amount}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -58,16 +64,16 @@ class MainScreen extends React.Component {
 
   _keyExtractor = (item, index) => item._id;
   _renderItem = ({ item }) => (
+
     <MyListItem
       onPressItem={this._onPressItem}
-      id={item._id}
+      id={item.id}
       name={item.name}
+      media={item.media}
       amount={item.media.length}
     />
   );
-  _onPressItem = (name) => {
-    console.log(`pressed ${name}`)
-    global.selectedSubject = name;
+  _onPressItem = () => {
     this.props.navigation.navigate('SubjectMedias');
   };
 
@@ -91,6 +97,7 @@ class MainScreen extends React.Component {
             renderItem={this._renderItem}
           />
         </ScrollView>
+
         <View style={{ flex: 1 }}>
           <ActionButton buttonColor="#338EFF" size={50}>
             <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => this.props.navigation.navigate('PhotoScreen')}>
