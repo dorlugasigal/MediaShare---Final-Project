@@ -22,8 +22,8 @@ class MyListItem extends React.PureComponent {
 
   render() {
     return (
-      <View>
-        <TouchableOpacity onPress={this._onPress}>
+      <View >
+        <TouchableOpacity onPress={this._onPress} >
           <View style={styles.subjectContainer}>
             <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>{this.props.name}</Text>
             <Text style={{ color: '#7695c9', paddingLeft: 10, fontWeight: 'bold', fontSize: 20, }}>Items: {this.props.amount}</Text>
@@ -33,7 +33,6 @@ class MyListItem extends React.PureComponent {
     );
   }
 }
-
 
 
 class MainScreen extends React.Component {
@@ -52,9 +51,9 @@ class MainScreen extends React.Component {
       this.setState({ image: result.uri });
     }
   };
+
   _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    alert(result.uri);
     console.log(result);
 
     if (!result.cancelled) {
@@ -87,39 +86,47 @@ class MainScreen extends React.Component {
 
     return (
 
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: '#338EFF', marginTop: 10, fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Your Items</Text>
-        <ScrollView>
-
+      <View style={{
+        flex: 1, flexDirection: 'column', justifyContent: 'space-between'
+      }}>
+        <View style={{ height: '6%' }}>
+          <Text style={{ color: '#338EFF', marginTop: 10, fontSize: 20, fontWeight: 'bold', alignSelf: 'center' }}>Your Items</Text>
+        </View>
+        <ScrollView styles={{ height: '80%' }} >
           <FlatList
             data={global.subjects}
             keyExtractor={this._keyExtractor}
             renderItem={this._renderItem}
           />
         </ScrollView>
+        <View style={styles.buttonContainer}>
 
-        <View style={{ flex: 1 }}>
-          <ActionButton buttonColor="#338EFF" size={50}>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add Photo" size={40} onPress={() => this.props.navigation.navigate('PhotoScreen')}>
-              <Icon name="md-camera" size={25} color="white" />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add Document" size={40} onPress={() =>
-              //this.props.navigation.navigate('DocumentScreen')
-              this._pickDocument()
-            }>
-              <Icon name="md-document" size={25} color="white" />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Add audio" size={40} onPress={() => this.props.navigation.navigate('AudioScreen')}>
-              <Icon name="md-mic" size={25} color="white" />
-            </ActionButton.Item>
-            <ActionButton.Item buttonColor='#79a6d2' title="Gallery" size={40} onPress={() =>
-              //this.props.navigation.navigate('GalleryScreen')
-              this._pickImage()
-            }>
-              <Icon name="md-images" size={25} color="white" />
-            </ActionButton.Item>
-          </ActionButton>
+          <TouchableOpacity
+            style={styles.roundButton}
+            onPress={() => this.props.navigation.navigate('PhotoScreen')}
+          >
+            <Icon name={"md-camera"} size={30} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this._pickDocument()}
+            style={styles.roundButton}
+          >
+            <Icon name={"md-document"} size={30} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.roundButton}
+            onPress={() => this.props.navigation.navigate('AudioScreen')}
+          >
+            <Icon name={"md-mic"} size={30} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.roundButton}
+            onPress={() => this._pickImage()}
+          >
+            <Icon name={"md-images"} size={30} color="white" />
+          </TouchableOpacity>
         </View>
+
       </View>
 
     )
@@ -127,7 +134,31 @@ class MainScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
 
+    height: '18%',
+    padding: 0,
+    backgroundColor: '#cedbed',
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: '#7387a3',
+  }
+  ,
+  roundButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    height: 70,
+    margin: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    backgroundColor: '#79a6d2',
+    borderRadius: 50,
+  },
   subjectContainer: {
     flex: 1,
     borderTopRightRadius: 50,

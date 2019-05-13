@@ -80,7 +80,6 @@ class AudioScreen extends React.Component {
     this.setState({
       haveRecordingPermissions: response.status === 'granted',
     });
-    alert(response);
   };
 
   _updateScreenForSoundStatus = status => {
