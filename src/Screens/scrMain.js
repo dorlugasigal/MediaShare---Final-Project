@@ -66,7 +66,9 @@ class MainScreen extends React.Component {
     />
   );
   _onPressItem = (name) => {
-    alert("you pressed an item");
+    console.log(`pressed ${name}`)
+    global.selectedSubject = name;
+    this.props.navigation.navigate('SubjectMedias');
   };
 
   render() {

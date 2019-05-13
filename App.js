@@ -5,6 +5,7 @@ import { createDrawerNavigator, createSwitchNavigator, createStackNavigator, cre
 
 import LoginSplashScreen from "./src/Screens/Login/scrLoginSplash"
 import MainScreen from "./src/Screens/scrMain"
+import SubjectMediasScreen from "./src/Screens/scrSubjectMedias"
 import AudioScreen from "./src/Screens/MediaUploadModules/Recorder"
 import DocumentScreen from "./src/Screens/MediaUploadModules/scrDocument"
 import GalleryScreen from "./src/Screens/MediaUploadModules/scrGallery"
@@ -76,12 +77,13 @@ const SideMenuDrawer = createDrawerNavigator({
 
 const AppStack = createStackNavigator({
   MainScreen: SideMenuDrawer,
+  SubjectMedias: SubjectMediasScreen,
   PhotoScreen: PhotoScreen,
   DocumentScreen: DocumentScreen,
   AudioScreen: AudioScreen,
   GalleryScreen: GalleryScreen,
   GroupDetailScreen: GroupDetailScreen,
-  AddGroupScreen:AddGroupScreen,
+  AddGroupScreen: AddGroupScreen,
 },
   {
     headerMode: 'float',
@@ -104,7 +106,7 @@ const AppStack = createStackNavigator({
                   }
                   }
                 />
-              ):(<Icon
+              ) : (<Icon
                 name="md-arrow-round-back"
                 size={35}
                 style={{ paddingLeft: 10 }}
