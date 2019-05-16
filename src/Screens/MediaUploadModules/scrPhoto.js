@@ -118,36 +118,34 @@ export default class CameraScreen extends React.Component {
 
   createFormData = (photo, body) => {
     const data = new FormData();
-
-    data.append("photo", {
-      name: photo.fileName,
-      type: photo.type,
+    //data.append("name", "avatar");
+    data.append("fileData", {
+      name: 'avatar',
+      type: 'image/jpg',
       uri:
         Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
     });
-
-    Object.keys(body).forEach(key => {
-      data.append(key, body[key]);
-    });
     return data;
   };
-  handleUploadPhoto = () => {
+  handleUploadPhoto() {
     fetch(GLOBAL.API + 'AddPhoto', {
-      method: "POST",
+      method: 'POST',
       headers: {
-        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
-        'Content-Type': 'multipart/form-data'
+        'Accept': 'application/json',  // It can be used to overcome cors errors
+        'Content-Type': 'multipart/form-data',
       },
       body: this.state.data
     })
-      .then(response => response.json())
       .then(response => {
-        console.log("upload succes", response);
-        alert("Upload success!");
+        response.json();
+      })
+      .then(response => {
+        console.log("upload success", response);
+        this.props.navigation.goBack();
         this.setState({ photo: null });
       })
       .catch(error => {
-        console.log("upload error", error);
+        console.log("upload error", JSON.stringify(error));
         alert("Upload failed!");
       });
   };
@@ -167,9 +165,8 @@ export default class CameraScreen extends React.Component {
         imageUri: savePhoto,
         data: this.createFormData(photo, { userId: "123" })
       })
-      this.handleUploadPhoto();
+      setTimeout(() => { this.handleUploadPhoto() }, 500);
     }
-
   }
 }
 
