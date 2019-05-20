@@ -5,6 +5,7 @@ import Icon from "@expo/vector-icons/Ionicons"
 import { FloatingAction } from 'react-native-floating-action';
 import ActionButton from 'react-native-action-button';
 import { ImagePicker, DocumentPicker } from 'expo';
+const GLOBAL = require('../Globals.js');
 
 
 
@@ -37,7 +38,46 @@ class MyListItem extends React.PureComponent {
 
 class MainScreen extends React.Component {
   state = {
-    slideUpPanelvisible: false
+    slideUpPanelvisible: false,
+    subjects: []
+  }
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+  componentDidMount() {
+
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      global.subjects = [];
+      global.refreshSubjects = false;
+      this.getSubjects();
+    });
+    this.setState({subjects:global.subjects});
+
+  }
+  getSubjects = () => {
+    fetch(GLOBAL.API + 'GetUserSubjects', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'user': global.email
+      })
+    })
+      .then((response) =>
+        response.json())
+      .then((responseJson) => {
+        var x = Object.assign([],responseJson);
+        this.setState({subjects:responseJson});
+
+        global.subjects = responseJson;
+        global.refreshSubjects = true;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -94,7 +134,8 @@ class MainScreen extends React.Component {
         </View>
         <ScrollView styles={{ height: '80%' }} >
           <FlatList
-            data={global.subjects}
+            data={this.state.subjects}
+            extraData={this.state.subjects}
             keyExtractor={this._keyExtractor}
             renderItem={this._renderItem}
           />

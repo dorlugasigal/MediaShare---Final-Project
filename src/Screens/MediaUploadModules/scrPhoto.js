@@ -118,31 +118,33 @@ export default class CameraScreen extends React.Component {
 
   createFormData = (photo, body) => {
     const data = new FormData();
-    //data.append("name", "avatar");
     data.append("fileData", {
       name: 'avatar',
       type: 'image/jpg',
       uri:
-        Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+        Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", ""),
+
     });
+    data.append("mediaUploader", body.mediaUploader);
+    data.append("type", body.type);
+    data.append("path", body.path);
+    data.append("subjectID", body.subject);
     return data;
   };
+
   handleUploadPhoto() {
     fetch(GLOBAL.API + 'AddPhoto', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',  // It can be used to overcome cors errors
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
         'Content-Type': 'multipart/form-data',
       },
       body: this.state.data
     })
       .then(response => {
-        response.json();
-      })
-      .then(response => {
-        console.log("upload success", response);
-        this.props.navigation.goBack();
-        this.setState({ photo: null });
+          console.log("upload success", response);
+          this.setState({ photo: null });
+          this.props.navigation.navigate('Main')
       })
       .catch(error => {
         console.log("upload error", JSON.stringify(error));
@@ -163,8 +165,14 @@ export default class CameraScreen extends React.Component {
       let savePhoto = Platform.OS == 'ios' ? await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo') : await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
       this.setState({
         imageUri: savePhoto,
-        data: this.createFormData(photo, { userId: "123" })
+        data: this.createFormData(photo, {
+          mediaUploader: global.email,
+          type: "image",
+          subject: '5cd82c266249346fb1e706d7',
+          path: savePhoto,
+        })
       })
+
       setTimeout(() => { this.handleUploadPhoto() }, 500);
     }
   }

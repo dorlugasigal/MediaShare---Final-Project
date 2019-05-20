@@ -12,7 +12,7 @@ class MyListItem extends React.PureComponent {
   constructor(props) {
     super(props);
   }
-  
+
   _onPress = () => {
     this.props.onPressItem(this.props.name);
   };
@@ -142,7 +142,7 @@ class GroupsScreen extends React.Component {
             justifyContent: 'center',
             width: 70,
             height: 70,
-            marginBottom:10,
+            marginBottom: 10,
             backgroundColor: '#fff',
             borderRadius: 50,
           }}
