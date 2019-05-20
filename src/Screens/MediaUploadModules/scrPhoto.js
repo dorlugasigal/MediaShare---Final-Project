@@ -144,6 +144,8 @@ export default class CameraScreen extends React.Component {
       .then(response => {
           console.log("upload success", response);
           this.setState({ photo: null });
+          alert("Uploaded Successfully!");
+
           // this.props.navigation.navigate('Main')
       })
       .catch(error => {
