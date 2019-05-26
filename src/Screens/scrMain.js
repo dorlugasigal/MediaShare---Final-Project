@@ -39,7 +39,8 @@ class MyListItem extends React.PureComponent {
 class MainScreen extends React.Component {
   state = {
     slideUpPanelvisible: false,
-    subjects: []
+    subjects: [],
+    refreshing: false,
   }
   componentWillUnmount() {
     // Remove the event listener
@@ -54,6 +55,14 @@ class MainScreen extends React.Component {
     });
     this.setState({ subjects: global.subjects });
 
+  }
+  _handleRefresh = () => {
+    this.setState({
+      refreshing: true
+    },
+      () => {
+        this.getSubjects();
+      })
   }
   getSubjects = () => {
     fetch(GLOBAL.API + 'GetUserSubjects', {
@@ -70,12 +79,13 @@ class MainScreen extends React.Component {
         response.json())
       .then((responseJson) => {
         var x = Object.assign([], responseJson);
-        this.setState({ subjects: responseJson });
+        this.setState({ subjects: responseJson, refreshing:false });
 
         global.subjects = responseJson;
         global.refreshSubjects = true;
       })
       .catch((error) => {
+        this.setState({refreshing:false})
         console.error(error);
       });
   }
@@ -96,16 +106,25 @@ class MainScreen extends React.Component {
           'Content-Type': 'application/json',
         },
 
-        body: {
+        body: JSON.stringify({
           "mediaUploader": global.email,
           "type": "image",
           "path": result.uri,
-          "subjectID": "5cd82c266249346fb1e706d7"
-        }
+          "subjectID": "d4ea2c266249346fb1e706d7"
+        })
       })
-        .then(response => {
-          console.log("upload success", response);
+        .then((response) =>
+          response.json())
+        .then((responseJson) => {
+          this.setState({
+            subjects: responseJson
+          })
+          global.subjects = responseJson;
+          global.refreshSubjects = true;
+          console.log("upload success", responseJson);
           alert("Uploaded Successfully!");
+
+
         })
         .catch(error => {
           console.log("upload error", JSON.stringify(error));
@@ -122,7 +141,7 @@ class MainScreen extends React.Component {
 
     if (!result.cancelled) {
       this.setState({ document: result.uri });
-      
+
       fetch(GLOBAL.API + 'AddMedia', {
         method: 'POST',
         headers: {
@@ -130,16 +149,24 @@ class MainScreen extends React.Component {
           'Content-Type': 'application/json',
         },
 
-        body: {
+        body: JSON.stringify({
           "mediaUploader": global.email,
           "type": "document",
           "path": result.uri,
-          "subjectID": "5cd82c266249346fb1e706d7"
-        }
+          "subjectID": "d4ea2c266249346fb1e706d7"
+        })
       })
-        .then(response => {
-          console.log("upload success", response);
+        .then((response) =>
+          response.json())
+        .then((responseJson) => {
+          this.setState({
+            subjects: responseJson
+          })
+          global.subjects = responseJson;
+          global.refreshSubjects = true;
+          console.log("upload success", responseJson);
           alert("Uploaded Successfully!");
+
         })
         .catch(error => {
           console.log("upload error", JSON.stringify(error));
@@ -185,6 +212,8 @@ class MainScreen extends React.Component {
             extraData={this.state.subjects}
             keyExtractor={this._keyExtractor}
             renderItem={this._renderItem}
+            refreshing={this.state.refreshing}
+            onRefresh={this._handleRefresh}
           />
         </ScrollView>
         <View style={styles.buttonContainer}>

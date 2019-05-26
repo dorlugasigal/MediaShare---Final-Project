@@ -155,7 +155,7 @@ export default class CameraScreen extends React.Component {
   };
   _takePhoto = async () => {
     if (this.camera) {
-      let photo = await this.camera.takePictureAsync({ quality: 1 });
+      let photo = await this.camera.takePictureAsync({ quality: 1, base64:true });
       let manipResult = null;
       if (Platform.OS == 'ios') {
         manipResult = await ImageManipulator.manipulateAsync(
@@ -170,7 +170,7 @@ export default class CameraScreen extends React.Component {
         data: this.createFormData(photo, {
           mediaUploader: global.email,
           type: "image",
-          subject: '5cd82c266249346fb1e706d7',
+          subject: 'd4ea2c266249346fb1e706d7',
           path: savePhoto,
         })
       })

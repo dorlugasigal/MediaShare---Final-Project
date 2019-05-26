@@ -23,6 +23,7 @@ const ICON_UNMUTED_BUTTON = new Icon(require('./assets/images/unmuted_button1x.p
 const ICON_TRACK_1 = new Icon(require('./assets/images/track_11x.png'), 166, 5);
 const ICON_THUMB_1 = new Icon(require('./assets/images/thumb_11x.png'), 18, 19);
 const ICON_THUMB_2 = new Icon(require('./assets/images/thumb_21x.png'), 15, 19);
+const GLOBAL = require('../../Globals.js');
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 const BACKGROUND_COLOR = '#FFF8ED';
@@ -184,7 +185,7 @@ class AudioScreen extends React.Component {
       playsInSilentLockedModeIOS: true,
       shouldDuckAndroid: true,
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: false,
     });
     const { sound, status } = await this.recording.createNewLoadedSoundAsync(
       {
@@ -204,12 +205,12 @@ class AudioScreen extends React.Component {
         'Content-Type': 'application/json',
       },
 
-      body: {
+      body: JSON.stringify({
         "mediaUploader": global.email,
         "type": "audio",
-        "path": sound,
-        "subjectID": "5cd82c266249346fb1e706d7"
-      }
+        "path":info.uri,
+        "subjectID": "d4ea2c266249346fb1e706d7"
+      })
     })
       .then(response => {
         console.log("upload success", response);
