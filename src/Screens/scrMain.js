@@ -122,6 +122,29 @@ class MainScreen extends React.Component {
 
     if (!result.cancelled) {
       this.setState({ document: result.uri });
+      
+      fetch(GLOBAL.API + 'AddMedia', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+          'Content-Type': 'application/json',
+        },
+
+        body: {
+          "mediaUploader": global.email,
+          "type": "document",
+          "path": result.uri,
+          "subjectID": "5cd82c266249346fb1e706d7"
+        }
+      })
+        .then(response => {
+          console.log("upload success", response);
+          alert("Uploaded Successfully!");
+        })
+        .catch(error => {
+          console.log("upload error", JSON.stringify(error));
+          alert("Upload failed!");
+        });
     }
   };
 
