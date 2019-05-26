@@ -197,6 +197,28 @@ class AudioScreen extends React.Component {
       this._updateScreenForSoundStatus
     );
     this.sound = sound;
+    fetch(GLOBAL.API + 'AddMedia', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        'Content-Type': 'application/json',
+      },
+
+      body: {
+        "mediaUploader": global.email,
+        "type": "audio",
+        "path": sound,
+        "subjectID": "5cd82c266249346fb1e706d7"
+      }
+    })
+      .then(response => {
+        console.log("upload success", response);
+        alert("Uploaded Successfully!");
+      })
+      .catch(error => {
+        console.log("upload error", JSON.stringify(error));
+        alert("Upload failed!");
+      });
     this.setState({
       isLoading: false,
     });

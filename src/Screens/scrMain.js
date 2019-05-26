@@ -52,7 +52,7 @@ class MainScreen extends React.Component {
       global.refreshSubjects = false;
       this.getSubjects();
     });
-    this.setState({subjects:global.subjects});
+    this.setState({ subjects: global.subjects });
 
   }
   getSubjects = () => {
@@ -69,8 +69,8 @@ class MainScreen extends React.Component {
       .then((response) =>
         response.json())
       .then((responseJson) => {
-        var x = Object.assign([],responseJson);
-        this.setState({subjects:responseJson});
+        var x = Object.assign([], responseJson);
+        this.setState({ subjects: responseJson });
 
         global.subjects = responseJson;
         global.refreshSubjects = true;
@@ -89,7 +89,31 @@ class MainScreen extends React.Component {
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
+      fetch(GLOBAL.API + 'AddMedia', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+          'Content-Type': 'application/json',
+        },
+
+        body: {
+          "mediaUploader": global.email,
+          "type": "image",
+          "path": result.uri,
+          "subjectID": "5cd82c266249346fb1e706d7"
+        }
+      })
+        .then(response => {
+          console.log("upload success", response);
+          alert("Uploaded Successfully!");
+        })
+        .catch(error => {
+          console.log("upload error", JSON.stringify(error));
+          alert("Upload failed!");
+        });
     }
+
+
   };
 
   _pickDocument = async () => {
