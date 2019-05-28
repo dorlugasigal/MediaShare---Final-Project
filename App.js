@@ -7,7 +7,7 @@ import LoginSplashScreen from "./src/Screens/Login/scrLoginSplash"
 import MainScreen from "./src/Screens/scrMain"
 import SubjectMediasScreen from "./src/Screens/scrSubjectMedias"
 import AudioScreen from "./src/Screens/MediaUploadModules/Recorder"
-// import DocumentScreen from "./src/Screens/MediaUploadModules/scrDocument"
+import AddMemberScreen from "./src/Screens/Menu/scrAddMember"
 // import GalleryScreen from "./src/Screens/MediaUploadModules/scrGallery"
 import PhotoScreen from "./src/Screens/MediaUploadModules/scrPhoto"
 import AboutScreen from "./src/Screens/Menu/scrAbout"
@@ -82,6 +82,7 @@ const AppStack = createStackNavigator({
   AudioScreen: AudioScreen,
   GroupDetailScreen: GroupDetailScreen,
   AddGroupScreen: AddGroupScreen,
+  AddMemberScreen:AddMemberScreen,
 },
   {
     headerMode: 'float',

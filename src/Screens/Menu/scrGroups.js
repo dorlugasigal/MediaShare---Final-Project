@@ -14,10 +14,10 @@ class MyListItem extends React.PureComponent {
   }
 
   _onPress = () => {
-    this.props.onPressItem(this.props.name);
+    this.props.onPressItem(this.props.name , this.props.id);
   };
   _onPressRemove = () => {
-    this.props.onPressRemove(this.props.name);
+    this.props.onPressRemove(this.props.name, this.props.id);
   }
   render() {
     return (
@@ -48,7 +48,7 @@ class GroupsScreen extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'groupAdmin': global.email
+        'groupAdmin': global.userID
       })
     })
       .then((response) =>
@@ -64,7 +64,7 @@ class GroupsScreen extends React.Component {
         console.error(error);
       });
   }
-  removeItem(groupName) {
+  removeItem(groupName,id) {
     console.log(`asking for api/deleteGroup for ${global.email} group:${groupName}`);
     return fetch(GLOBAL.API + 'deleteGroup', {
       method: 'POST',
@@ -75,7 +75,7 @@ class GroupsScreen extends React.Component {
       body: JSON.stringify({
         'group': {
           'groupName': groupName,
-          'groupAdmin': global.email,
+          'groupAdmin': global.userID,
         }
       })
     })
@@ -115,15 +115,15 @@ class GroupsScreen extends React.Component {
       name={item.groupName}
     />
   );
-  _onPressItem = (name) => {
+  _onPressItem = (name,id) => {
     // updater functions are preferred for transactional updates
-    this.props.navigation.navigate('GroupDetailScreen', { groupName: name })
+    this.props.navigation.navigate('GroupDetailScreen', { groupName: name , groupID: id })
   };
   _addGroup() {
     this.props.navigation.navigate('AddGroupScreen')
   }
-  _onPressRemove = (groupName) => {
-    this.removeItem(groupName);
+  _onPressRemove = (groupName,id) => {
+    this.removeItem(groupName,id);
   }
   render() {
     return (

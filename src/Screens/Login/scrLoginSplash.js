@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 class LoginSplashScreen extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { signedIn: false, name: "", photoUrl: "",email: "" }
+    this.state = { signedIn: false, name: "", photoUrl: "", email: "" }
   }
   signInWithGoogleAsync = async () => {
     try {
@@ -45,27 +45,31 @@ class LoginSplashScreen extends React.Component {
         global.photoUrl = result.user.photoUrl;
         global.email = result.user.email;
 
-        fetch(GLOBAL.API + 'GetUserSubjects', {
+        fetch(GLOBAL.API + 'registerUser', {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            'user': result.user.email
+            'user': {
+              'email': result.user.email,
+              'name': result.user.name
+            }
           })
         })
           .then((response) =>
-            response.json())
+            response.json()
+          )
           .then((responseJson) => {
-            console.log(JSON.stringify(responseJson.toString()));
-            global.subjects=responseJson;
+            console.log(`user id is ${responseJson._id}`);
+            global.userID = responseJson._id;
             this.props.navigation.navigate('MainScreen');
+          
           })
           .catch((error) => {
             console.error(error);
           });
-
       } else {
         return { cancelled: true };
       }

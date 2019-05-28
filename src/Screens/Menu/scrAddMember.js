@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 const GLOBAL = require('../../Globals.js');
 
 
@@ -7,14 +7,16 @@ class AddMember extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            groupMemberName: '',
+            groupMemberEmail: '',
         }
     }
-    handleGroupMemberName = (text) => {
-        this.setState({ groupMemberName: text })
+    handleGroupMemberEmail = (text) => {
+        this.setState({ groupMemberEmail: text })
     }
-    AddGroupMemberToDB = (groupName) => {
-        console.log(`add group api/addGroup for ${global.email} group name:${groupName}`);
+    AddGroupMemberToDB = (email) => {
+        const groupName = this.props.navigation.getParam('groupName', 'NO-ID');
+        const groupID = this.props.navigation.getParam('groupID', 'NO-ID');
+        console.log(`add member api/addmember for ${global.email} group name:${groupName}`);
         fetch(GLOBAL.API + 'addMemberToGroup', {
             method: 'POST',
             headers: {
@@ -23,28 +25,39 @@ class AddMember extends React.Component {
             },
             body: JSON.stringify({
                 'group': {
-                    'groupName': groupName,
-                    'groupAdmin': global.email,
-                }
+                    'groupID': groupID,
+                    'groupAdmin': global.userID,
+                },
+                'email': email
             })
         })
-            .then((response) =>
-                response.json())
-            .then((responseJson) => {
-                this.props.navigation.pop();
-                return responseJson;
+            .then((response) => {
+                if (response.status != 200) {
+                    alert("no such user with that email");
+                }
+                else {
+                    response.json().then((responseJson) => {
+                        if (responseJson) {
+                            this.props.navigation.pop();
+                            return responseJson;
+                        }
+                    }) .catch((error) => {
+                        console.error(error);
+                    });
+                }
             })
+
             .catch((error) => {
                 console.error(error);
             });
     }
     AddNewGroupMember = () => {
-        if (!this.state.groupMemberName) {
-            alert("You must enter a Group Name ");
+        if (!this.state.groupMemberEmail) {
+            alert(` ${this.state.groupMemberEmail}    You must enter a Group Email `);
             return;
         }
         else {
-            this.AddGroupMemberToDB(this.state.groupMemberName);
+            this.AddGroupMemberToDB(this.state.groupMemberEmail);
         }
     }
     render() {
@@ -52,11 +65,12 @@ class AddMember extends React.Component {
             <View style={styles.container}>
                 <TextInput style={styles.input}
                     underlineColorAndroid="transparent"
-                    placeholder="Enter Group Member Name"
+                    placeholder="Enter Group Member Email"
                     placeholderTextColor="#9a73ef"
                     autoCapitalize="none"
-                    onChangeText={this.handleGroupMemberName}
+                    onChangeText={this.handleGroupMemberEmail}
                 />
+                <Text>{this.state.groupMemberEmail}</Text>
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={

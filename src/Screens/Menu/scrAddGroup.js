@@ -16,7 +16,7 @@ class AddGroup extends React.Component {
     }
 
     AddGroupToDB = (groupName) => {
-        console.log(`add group api/addGroup for ${global.email} group name:${groupName}`);
+        console.log(`add group api/addGroup for id: ${global.userID} : ${global.email}  group name:${groupName}`);
         fetch(GLOBAL.API + 'addGroup', {
             method: 'POST',
             headers: {
@@ -26,7 +26,7 @@ class AddGroup extends React.Component {
             body: JSON.stringify({
                 'group': {
                     'groupName': groupName,
-                    'groupAdmin': global.email,
+                    'groupAdmin': global.userID,
                 }
             })
         })
