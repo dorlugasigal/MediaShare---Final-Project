@@ -72,8 +72,8 @@ class MainScreen extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'userID': global.userID
-
+        'userID': global.userID,
+        'email':global.email
       })
     })
       .then((response) =>
