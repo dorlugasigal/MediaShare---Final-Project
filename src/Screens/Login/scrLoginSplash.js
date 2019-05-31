@@ -35,7 +35,7 @@ class LoginSplashScreen extends React.Component {
       const result = await Expo.Google.logInAsync({
         androidClientId: '517235184328-tgvsi39epm24edn7rm02njmakmhcvmsq.apps.googleusercontent.com',
         iosClientId: '517235184328-6ih4iqcplt9ivbfmsqdrs8o0707hd6ml.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
+        scopes: ['profile', 'email','https://www.googleapis.com/auth/calendar'],
       });
 
       if (result.type === 'success') {
@@ -44,7 +44,6 @@ class LoginSplashScreen extends React.Component {
         global.name = result.user.name;
         global.photoUrl = result.user.photoUrl;
         global.email = result.user.email;
-
         fetch(GLOBAL.API + 'registerUser', {
           method: 'POST',
           headers: {

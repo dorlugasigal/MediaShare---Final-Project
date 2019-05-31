@@ -7,8 +7,6 @@ import ActionButton from 'react-native-action-button';
 import { ImagePicker, DocumentPicker } from 'expo';
 const GLOBAL = require('../Globals.js');
 
-
-
 class MyListItem extends React.PureComponent {
   constructor(props) {
     super(props);

@@ -116,37 +116,36 @@ export default class CameraScreen extends React.Component {
     )
   }
 
-  createFormData = (photo, body) => {
-    const data = new FormData();
-    data.append("fileData", {
-      name: 'avatar',
-      type: 'image/jpg',
-      uri:
-        Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", ""),
+  // createFormData = (photo, body) => {
+  //   const data = new FormData();
+  //   data.append("fileData", {
+  //     name: 'avatar',
+  //     type: 'image/jpg',
+  //     uri:
+  //       Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", ""),
 
-    });
-    data.append("mediaUploader", body.mediaUploader);
-    data.append("type", body.type);
-    data.append("path", body.path);
-    data.append("subjectID", body.subject);
-    return data;
-  };
+  //   });
+  //   data.append("mediaUploader", body.mediaUploader);
+  //   data.append("type", body.type);
+  //   data.append("path", body.path);
+  //   data.append("subjectID", body.subject);
+  //   return data;
+  // };
 
   handleUploadPhoto() {
-    fetch(GLOBAL.API + 'AddPhoto', {
+    console.log(this.state.data);
+    fetch(GLOBAL.API + 'AddMedia', {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
-      body: this.state.data
+      body: JSON.stringify(this.state.data)
     })
       .then(response => {
-          console.log("upload success", response);
+          console.log("upload success");
           this.setState({ photo: null });
           alert("Uploaded Successfully!");
-
-          // this.props.navigation.navigate('Main')
       })
       .catch(error => {
         console.log("upload error", JSON.stringify(error));
@@ -165,14 +164,16 @@ export default class CameraScreen extends React.Component {
         );
       }
       let savePhoto = Platform.OS == 'ios' ? await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo') : await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
+      console.log(photo.base64);
       this.setState({
         imageUri: savePhoto,
-        data: this.createFormData(photo, {
-          mediaUploader: global.email,
+        data:  {
+          mediaUploader:{email : global.email, userID: global.userID},
           type: "image",
           subject: 'd4ea2c266249346fb1e706d7',
           path: savePhoto,
-        })
+          base64: `data:image/jpg;base64,${photo.base64}`
+        }
       })
 
       setTimeout(() => { this.handleUploadPhoto() }, 500);

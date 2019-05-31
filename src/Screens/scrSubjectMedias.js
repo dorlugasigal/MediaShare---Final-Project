@@ -22,11 +22,12 @@ class MyListItem extends React.PureComponent {
       <View>
         <TouchableOpacity onPress={this._onPress}>
           <View style={styles.mediasContainer}>
-            <Text style={styles.mediaText}>{this.props.id}</Text>
+            {/* <Text style={styles.mediaText}>{this.props.id}</Text>
             <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
             <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
             <Text style={styles.mediaText}>{this.props.type}</Text>
-            <Text style={styles.mediaText}>{this.props.path}</Text>
+            <Text style={styles.mediaText}>{this.props.path}</Text> */}
+            <Image style={styles.mediaPhoto} source={{uri: this.props.base64}}></Image>
           </View>
         </TouchableOpacity>
       </View>
@@ -45,6 +46,7 @@ class SubjectMedias extends React.Component {
       mediaUploader={item.mediaUploader}
       type={item.type}
       path={item.path}
+      base64={item.base64}
     />
   );
   _onPressItem = (path) => {
@@ -95,9 +97,8 @@ const styles = StyleSheet.create({
     marginRight: 15,
     padding: 10,
     paddingLeft: 20,
-    //marginLeft: 15,
     marginTop: 15,
-    //width: '90%',
+    
     alignItems: 'flex-start',
     backgroundColor: '#d9e6fc'
   },
@@ -106,6 +107,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  mediaPhoto:{
+    flex: 1,
+    width:300,
+    height:300
   }
 });
 
