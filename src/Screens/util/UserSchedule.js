@@ -33,7 +33,7 @@ export default class UserSchedule {
                                             body: JSON.stringify({
                                                 'subject': {
                                                     'subjectCreator': global.userID,
-                                                    'name': `${cur.street  ? cur.street+ ',' : ''} ${cur.city ? cur.city+ ',' : ''} ${cur.country ? cur.country: ''}`
+                                                    'name': `${cur.street ? cur.street + ',' : ''} ${cur.city ? cur.city + ',' : ''} ${cur.country ? cur.country : ''}`
                                                 }
                                             })
                                         }).then((response) =>
@@ -46,6 +46,11 @@ export default class UserSchedule {
                                         });
                                     })
                                 })
+                            }
+                            else {
+                                // if there is an event in the current hour,
+                                // get its id when it exists, 
+                                // or create subject and then get id
                             }
                         })
                 }
