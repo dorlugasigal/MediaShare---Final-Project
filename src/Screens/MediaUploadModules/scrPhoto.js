@@ -2,13 +2,12 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image, CameraRoll, Platform, Dimensions } from 'react-native';
 import { Camera, Permissions, ImageManipulator } from 'expo';
 import Icon from "@expo/vector-icons/Ionicons"
+import UserSchedule from "../util/UserSchedule"
+
 const GLOBAL = require('../../Globals.js');
 var { height, width } = Dimensions.get('window');
 export default class CameraScreen extends React.Component {
-  //type- back/front camera
-  //flashmode: flash on/off
-  //imageuri: uri of captured image
-  //show last photo: bool to show last photo
+
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
@@ -21,6 +20,8 @@ export default class CameraScreen extends React.Component {
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     this.setState({ hasCameraPermission: status === 'granted' });
+    let x = new UserSchedule();
+    x.getCurrentTimeSubject();
   }
 
   render() {
@@ -116,24 +117,7 @@ export default class CameraScreen extends React.Component {
     )
   }
 
-  // createFormData = (photo, body) => {
-  //   const data = new FormData();
-  //   data.append("fileData", {
-  //     name: 'avatar',
-  //     type: 'image/jpg',
-  //     uri:
-  //       Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", ""),
-
-  //   });
-  //   data.append("mediaUploader", body.mediaUploader);
-  //   data.append("type", body.type);
-  //   data.append("path", body.path);
-  //   data.append("subjectID", body.subject);
-  //   return data;
-  // };
-
   handleUploadPhoto() {
-    console.log(this.state.data);
     fetch(GLOBAL.API + 'AddMedia', {
       method: 'POST',
       headers: {
@@ -164,13 +148,13 @@ export default class CameraScreen extends React.Component {
         );
       }
       let savePhoto = Platform.OS == 'ios' ? await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo') : await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
-      console.log(photo.base64);
+      console.log(global.SubjectID);
       this.setState({
         imageUri: savePhoto,
         data:  {
           mediaUploader:{email : global.email, userID: global.userID},
           type: "image",
-          subject: 'd4ea2c266249346fb1e706d7',
+          subject: global.SubjectID,
           path: savePhoto,
           base64: `data:image/jpg;base64,${photo.base64}`
         }
