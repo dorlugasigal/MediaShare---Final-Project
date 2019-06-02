@@ -23,11 +23,13 @@ class MyListItem extends React.PureComponent {
         <TouchableOpacity onPress={this._onPress}>
           <View style={styles.mediasContainer}>
             {/* <Text style={styles.mediaText}>{this.props.id}</Text>
-            <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
-            <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
             <Text style={styles.mediaText}>{this.props.type}</Text>
-            <Text style={styles.mediaText}>{this.props.path}</Text> */}
-            <Image style={styles.mediaPhoto} source={{uri: this.props.base64}}></Image>
+          <Text style={styles.mediaText}>{this.props.path}</Text> */}
+            <Image style={styles.mediaPhoto} source={{ uri: this.props.base64 }}></Image>
+            <View style={styles.textContainer}>
+              <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
+              <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -92,15 +94,20 @@ const styles = StyleSheet.create({
   },
   mediasContainer: {
     flex: 1,
+    flexDirection: 'row',
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
     marginRight: 15,
     padding: 10,
     paddingLeft: 20,
     marginTop: 15,
-    
+
     alignItems: 'flex-start',
     backgroundColor: '#d9e6fc'
+  },
+  textContainer:{
+    flexDirection: 'column',
+
   },
   mediaText: {
     color: '#7695c9',
@@ -108,10 +115,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-  mediaPhoto:{
+  mediaPhoto: {
     flex: 1,
-    width:300,
-    height:300
+    width: 150,
+    height: 150
   }
 });
 

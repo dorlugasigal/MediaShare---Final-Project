@@ -15,7 +15,6 @@ class MyListItem extends React.PureComponent {
   _onPress = () => {
     global.selectedSubjectMedia = this.props.media;
     global.selectedSubject = this.props.name;
-    console.log(JSON.stringify(this.props.media));
     this.props.onPressItem();
   };
 
@@ -94,7 +93,6 @@ class MainScreen extends React.Component {
       aspect: [4, 3],
     });
 
-    console.log(result);
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
@@ -120,7 +118,7 @@ class MainScreen extends React.Component {
           })
           global.subjects = responseJson;
           global.refreshSubjects = true;
-          console.log("upload success", responseJson);
+          console.log("upload success");
           alert("Uploaded Successfully!");
 
 
@@ -136,7 +134,6 @@ class MainScreen extends React.Component {
 
   _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    console.log(result);
 
     if (!result.cancelled) {
       this.setState({ document: result.uri });
@@ -163,7 +160,7 @@ class MainScreen extends React.Component {
           })
           global.subjects = responseJson;
           global.refreshSubjects = true;
-          console.log("upload success", responseJson);
+          console.log("upload success");
           alert("Uploaded Successfully!");
 
         })

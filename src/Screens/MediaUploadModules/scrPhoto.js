@@ -130,6 +130,7 @@ export default class CameraScreen extends React.Component {
           console.log("upload success");
           this.setState({ photo: null });
           alert("Uploaded Successfully!");
+          this.props.navigation.pop();
       })
       .catch(error => {
         console.log("upload error", JSON.stringify(error));
@@ -148,7 +149,6 @@ export default class CameraScreen extends React.Component {
         );
       }
       let savePhoto = Platform.OS == 'ios' ? await CameraRoll.saveToCameraRoll(manipResult.uri, 'photo') : await CameraRoll.saveToCameraRoll(photo.uri, 'photo');
-      console.log(global.SubjectID);
       this.setState({
         imageUri: savePhoto,
         data:  {
