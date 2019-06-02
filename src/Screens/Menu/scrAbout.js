@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text,StyleSheet } from 'react-native'
+import { View, Text,StyleSheet,Image } from 'react-native'
 
 class AboutScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image style={styles.logo} source={require("../../../assets/icon.png")}></Image>
         <Text style={styles.MainTitle}>App Developers:</Text>
         <Text style={styles.DevelopersTitle}>Dor Lugasi Gal, Daniel Morad Saka</Text>
         <Text style={styles.body}>Media Share are an application</Text>
@@ -37,5 +38,10 @@ const styles = StyleSheet.create({
   },
   body:{
     fontSize: 16,
+  }, logo: {
+    backgroundColor: "#056ecf",
+    height: 100,
+    width: 100,
+    borderRadius:15
   },
 })
