@@ -49,7 +49,7 @@ const CustomDrawerComponent = (props) => (
 
 const SideMenuDrawer = createDrawerNavigator({
   Main: MainScreen,
-  'Invite A Friend Screen': InviteAFriendScreen,
+  'Invite A Friend': InviteAFriendScreen,
   About: AboutScreen,
   Schedule: ScheduleScreen,
   Groups: GroupsScreen,

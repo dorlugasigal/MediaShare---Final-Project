@@ -66,11 +66,10 @@ class AddMember extends React.Component {
                 <TextInput style={styles.input}
                     underlineColorAndroid="transparent"
                     placeholder="Enter Group Member Email"
-                    placeholderTextColor="#9a73ef"
+                    placeholderTextColor="#2F95D6"
                     autoCapitalize="none"
                     onChangeText={this.handleGroupMemberEmail}
                 />
-                <Text>{this.state.groupMemberEmail}</Text>
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
@@ -93,13 +92,13 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         height: 40,
         width: '80%',
-        borderColor: '#7a42f4',
+        borderColor: '#2F95D6',
         borderWidth: 1,
         borderRadius: 25,
-        backgroundColor: '#f8effb',
+        backgroundColor: '#f4f8ff',
     },
     submitButton: {
-        backgroundColor: '#7a42f4',
+        backgroundColor: '#2F95D6',
         padding: 10,
         margin: 15,
         width: '30%',
