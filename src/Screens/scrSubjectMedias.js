@@ -73,6 +73,7 @@ class SubjectMedias extends React.Component {
             data={global.selectedSubjectMedia}
             keyExtractor={this._keyExtractor}
             renderItem={this._renderItem}
+            numColumns={3}
           />
         </View>
       </View>
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   mediasContainer: {
-  
     flex: 1,
     flexDirection: 'row',
     padding: 10,
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     width: 100,
     height: 100,
+    margin:10,
   },
   textContainer: {
     flexDirection: 'column',
@@ -114,8 +115,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   mediaPhoto: {
-    width: 100,
-    height: 100,
+    width: '100%',
+    height: '100%',
     resizeMode: 'stretch'
   }
 });
