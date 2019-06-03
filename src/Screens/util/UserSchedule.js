@@ -21,7 +21,7 @@ export default class UserSchedule {
                     body: JSON.stringify({
                         'subject': {
                             'subjectCreator': global.userID,
-                            'name': `${cur.street ? cur.street + ',' : ''} ${cur.city ? cur.city + ',' : ''} ${cur.country ? cur.country : ''}`
+                            'name': `${cur.street ? cur.street + ', ' : ''}${cur.city ? cur.city + ', ' : ''}${cur.country ? cur.country : ''}`
                         }
                     })
                 }).then((response) =>

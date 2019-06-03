@@ -83,6 +83,7 @@ class MediaDetailsScreen extends React.Component {
                         </Text>
                     </View>
                 </View>
+                <View style={styles.horizontalLine} />
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
                     <View style={{ flex: 1 }}>
                         <Text style={styles.mediaTextContext}>
@@ -95,6 +96,7 @@ class MediaDetailsScreen extends React.Component {
                         </Text>
                     </View>
                 </View>
+                <View style={styles.horizontalLine} />
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
                     <View style={{ flex: 1 }}>
                         <Text style={styles.mediaTextContext}>
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#222'
     },
     mediaPhoto: {
-        marginTop: 20,
+        margin: 20,
         height: '50%',
         width: '90%',
         resizeMode: 'stretch',
