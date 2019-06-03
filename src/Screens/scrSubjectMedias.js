@@ -24,7 +24,7 @@ class MyListItem extends React.PureComponent {
           {/* <Text style={styles.mediaText}>{this.props.id}</Text>
             <Text style={styles.mediaText}>{this.props.type}</Text>
           <Text style={styles.mediaText}>{this.props.path}</Text> */}
-          <Image style={styles.mediaPhoto}  source={{ uri: this.props.base64 }}></Image>
+          <Image style={styles.mediaPhoto} source={{ uri: this.props.base64 }}></Image>
           {/* <View style={styles.textContainer}>
               <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
               <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
@@ -101,9 +101,16 @@ const styles = StyleSheet.create({
   singleMediaContainer: {
     borderWidth: 2,
     borderColor: '#fff',
-    width: 100,
-    height: 100,
-    margin:10,
+    width: 110,
+    height: 110,
+    margin: 6,
+    flexWrap: 'wrap',
+
+  },
+  mediaPhoto: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   textContainer: {
     flexDirection: 'column',
@@ -114,11 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-  mediaPhoto: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'stretch'
-  }
 });
 
 export default SubjectMedias;
