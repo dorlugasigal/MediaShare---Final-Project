@@ -1,10 +1,12 @@
 import React from 'react';
-import { TouchableOpacity, ScrollView, FlatList, Image, View, Text, StyleSheet, Dimensions, Modal } from 'react-native';
+import {
+  TouchableOpacity, ScrollView, FlatList, Image, View, Text, StyleSheet, Button, Alert
+} from 'react-native';
+const GLOBAL = require('../Globals.js');
+
 // import Icon from "react-native-vector-icons/MaterialIcons"
 import Icon from "@expo/vector-icons/Ionicons"
-import { FloatingAction } from 'react-native-floating-action';
-import ActionButton from 'react-native-action-button';
-import { ImagePicker, DocumentPicker } from 'expo';
+
 
 
 
@@ -14,21 +16,14 @@ class MyListItem extends React.PureComponent {
   }
 
   _onPress = () => {
-    this.props.onPressItem(this.props.base64, this.props.mediaUploader);
+    this.props.onPressItem(this.props.base64, this.props.mediaUploader, this.props.uploadDate, this.props.id);
   };
 
   render() {
     return (
       <View style={styles.singleMediaContainer}>
         <TouchableOpacity onPress={this._onPress} >
-          {/* <Text style={styles.mediaText}>{this.props.id}</Text>
-            <Text style={styles.mediaText}>{this.props.type}</Text>
-          <Text style={styles.mediaText}>{this.props.path}</Text> */}
           <Image style={styles.mediaPhoto} source={{ uri: this.props.base64 }}></Image>
-          {/* <View style={styles.textContainer}>
-              <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
-              <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
-            </View> */}
         </TouchableOpacity>
       </View>
     );
@@ -36,7 +31,9 @@ class MyListItem extends React.PureComponent {
 }
 
 class SubjectMedias extends React.Component {
-
+  constructor(props) {
+    super(props);
+  }
   _keyExtractor = (item, index) => item.id;
   _renderItem = ({ item }) => (
     <MyListItem
@@ -49,25 +46,52 @@ class SubjectMedias extends React.Component {
       base64={item.base64}
     />
   );
-  _onPressItem = (path, mediaUploader) => {
-    this.props.navigation.navigate('MediaDetailsScreen', { path: path, mediaUploader: mediaUploader })
+  _onPressItem = (base64, mediaUploader, uploadDate, id) => {
+    this.props.navigation.navigate('MediaDetailsScreen', { base64: base64, mediaUploader: mediaUploader, uploadDate: uploadDate, id: id })
   };
 
-  render() {
-    // const window = Dimensions.get('window');
-    // const { navigation } = this.props;
-    // const signedIn = global.signedIn;
-    // const name = global.name;
-    // const photoUrl = global.photoUrl;
-    // const accessToken = global.accessToken;
+  deleteSubjectMessage() {
+    Alert.alert(
+      'Delete Subject',
+      `Are you sure you want to delete subject ${global.selectedSubject}?`,
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes', onPress:  ()=> {
+            fetch(GLOBAL.API + 'DeleteSubject', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                'subjectCreator': global.selectedSubjectCreator,
+                'subjectID': global.selectedSubjectID
+              })
+            }).then((response) =>
+              this.props.navigation.pop()
+            ).catch((error) => {
+              console.error(error);
+            });
+          }
+        },
+      ],
+      { cancelable: false },
+    );
+  }
 
+
+  render() {
     return (
 
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>
           {global.selectedSubject}
         </Text>
-
         <View style={styles.mediasContainer}>
           <FlatList
             data={global.selectedSubjectMedia}
@@ -75,6 +99,9 @@ class SubjectMedias extends React.Component {
             renderItem={this._renderItem}
             numColumns={3}
           />
+        </View>
+        <View>
+          <Button title="Delete Subject" onPress={()=>{this.deleteSubjectMessage()}}></Button>
         </View>
       </View>
     )

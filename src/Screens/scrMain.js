@@ -15,6 +15,10 @@ class MyListItem extends React.PureComponent {
   _onPress = () => {
     global.selectedSubjectMedia = this.props.media;
     global.selectedSubject = this.props.name;
+    global.selectedSubjectCreator = this.props.subjectCreator;
+    console.log(this.props.id)
+    global.selectedSubjectID= this.props.id;
+    console.log(global.selectedSubjectID)
     this.props.onPressItem();
   };
 
@@ -176,8 +180,9 @@ class MainScreen extends React.Component {
 
     <MyListItem
       onPressItem={this._onPressItem}
-      id={item.id}
+      id={item._id}
       name={item.name}
+      subjectCreator={item.subjectCreator}
       media={item.media}
       amount={item.media.length}
     />
