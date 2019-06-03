@@ -49,7 +49,9 @@ class SubjectMedias extends React.Component {
   _onPressItem = (base64, mediaUploader, uploadDate, id) => {
     this.props.navigation.navigate('MediaDetailsScreen', { base64: base64, mediaUploader: mediaUploader, uploadDate: uploadDate, id: id })
   };
-
+  ManageGroups() {
+    this.props.navigation.navigate("SubjectGroupsScreen");
+  }
   deleteSubjectMessage() {
     Alert.alert(
       'Delete Subject',
@@ -100,12 +102,12 @@ class SubjectMedias extends React.Component {
             numColumns={3}
           />
         </View>
-        <View style={{ flexDirection: 'row' ,justifyContent: 'space-between' }}>
+        <View style={styles.buttonContainer}>
           <View style={styles.deleteButton}>
-            <Button title="Delete Subject" onPress={() => { this.deleteSubjectMessage() }}></Button>
+            <Button color={"#ff4f4f"} title="Delete Subject" onPress={() => { this.deleteSubjectMessage() }}></Button>
           </View>
           <View style={styles.manageGroupsButton}>
-            <Button color={"#4495f7"} title="Manage Groups" onPress={() => { this.manageGroups() }}></Button>
+            <Button color={"#72adff"} title="Manage Groups" onPress={() => { this.ManageGroups() }}></Button>
           </View>
         </View>
       </View>
@@ -115,14 +117,22 @@ class SubjectMedias extends React.Component {
 
 const styles = StyleSheet.create({
   deleteButton: {
-    width: '49%',
-    height: 30,
+    flex:1,
+    margin: 5,
+    marginTop:0,
   },
   manageGroupsButton: {
-    width: '49%',
-    height: 30,
+    flex:1,
+    margin: 5,
+    marginTop:0,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: "#d9e6fc"
   },
   title: {
+    flex: 1,
     color: '#338EFF',
     marginTop: 10,
     padding: 10,
@@ -132,7 +142,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   mediasContainer: {
-    flex: 1,
+    flex: 10,
     flexDirection: 'row',
     padding: 10,
     marginTop: 15,

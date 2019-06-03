@@ -12,23 +12,30 @@ class MyListItem extends React.PureComponent {
   constructor(props) {
     super(props);
   }
-
   _onPress = () => {
-    this.props.onPressItem(this.props.name , this.props.id);
+    this.props.onPressItem(this.props.name, this.props.id);
   };
   _onPressRemove = () => {
-    this.props.onPressRemove(this.props.name, this.props.id);
+    this.props.onPressRemove(this.props.id);
   }
+  _onPressAdd = () => {
+    this.props.onPressAdd(this.props.id);
+  }
+
   render() {
     return (
       <View style={styles.contianer}>
         <TouchableOpacity onPress={this._onPress} style={styles.groupName} >
           <Text style={{ marginTop: 12, marginLeft: 15, fontWeight: 'bold', color: '#fff', fontSize: 20, }}>{this.props.name}</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={this._onPressRemove} style={styles.removeGroup} >
-          <Icon style={{ marginTop: 13, marginLeft: 22, color: '#ccebff' }} name="ios-trash" size={30} />
-        </TouchableOpacity>
+        {this.props.exists
+          ? <TouchableOpacity onPress={() => { this._onPressRemove() }} style={styles.removeGroup} >
+            <Icon style={{ marginTop: 11, marginLeft: 22, color: '#f99f9f' }} name="ios-remove" size={30} />
+          </TouchableOpacity>
+          : <TouchableOpacity onPress={() => { this._onPressAdd() }} style={styles.addGroup} >
+            <Icon style={{ marginTop: 11, marginLeft: 22, color: '#9ff9c2' }} name="ios-add" size={30} />
+          </TouchableOpacity>
+        }
       </View>
     );
   }
@@ -36,11 +43,11 @@ class MyListItem extends React.PureComponent {
 class SubjectGroupsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { groups: [], newGroup: '' }
+    this.state = { groups: [] }
   }
 
   getGroups() {
-    console.log(`asking for api/GetGroups for ${global.email}`);
+    console.log(`asking for api/GetGroups for ${global.email} - ${global.userID}`);
     return fetch(GLOBAL.API + 'getGroups', {
       method: 'POST',
       headers: {
@@ -54,7 +61,6 @@ class SubjectGroupsScreen extends React.Component {
       .then((response) =>
         response.json())
       .then((responseJson) => {
-        console.log(responseJson.toString());
         this.setState({
           groups: responseJson
         })
@@ -64,67 +70,83 @@ class SubjectGroupsScreen extends React.Component {
         console.error(error);
       });
   }
-  removeItem(groupName,id) {
-    console.log(`asking for api/deleteGroup for ${global.email} group:${groupName}`);
-    return fetch(GLOBAL.API + 'deleteGroup', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'group': {
-          'groupName': groupName,
-          'groupAdmin': global.userID,
-        }
-      })
-    })
-      .then((response) =>
-        response.json())
-      .then((responseJson) => {
-        this.setState({
-          groups: responseJson
-        })
-        return responseJson;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+
   componentWillUnmount() {
     // Remove the event listener
     this.focusListener.remove();
   }
 
   componentDidMount() {
-
     this.focusListener = this.props.navigation.addListener("didFocus", () => {
       this.getGroups();
     });
-
-
-    this.getGroups();
   }
   _keyExtractor = (item, index) => item._id;
   _renderItem = ({ item }) => (
     <MyListItem
       onPressItem={this._onPressItem}
       onPressRemove={this._onPressRemove}
+      onPressAdd={this._onPressAdd}
       id={item._id}
+      exists={this.checkExistance(item)}
       admin={item.groupAdmin}
       name={item.groupName}
     />
   );
-  _onPressItem = (name,id) => {
+  checkExistance = (item) => {
+    var x = global.selectedSubjectGroups.filter(
+      yy => yy._id == item._id);
+
+    if (x.length > 0) {
+      return (this.state.groups.filter(t => t._id == x[0]._id).length > 0);
+    } else {
+      return false;
+    }
+  }
+  _onPressItem = (name, id) => {
     // updater functions are preferred for transactional updates
-    this.props.navigation.navigate('GroupDetailScreen', { groupName: name , groupID: id })
+    this.props.navigation.navigate('GroupDetailScreen', { groupName: name, groupID: id })
   };
-  _addGroup() {
-    this.props.navigation.navigate('AddGroupScreen')
-  }
-  _onPressRemove = (groupName,id) => {
-    this.removeItem(groupName,id);
-  }
+
+  _onPressAdd = (id) => {
+    console.log(global.selectedSubjectID);
+    console.log(id);
+    return fetch(GLOBAL.API + 'AddGroupToSubject', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'subjectID': global.selectedSubjectID,
+        'groupID': id,
+      })
+    })
+      .then((response) =>
+        this.props.navigation.navigate("MainScreen"))
+      .catch((error) => {
+        console.error(error);
+      })
+  };
+  _onPressRemove = (id) => {
+    return fetch(GLOBAL.API + 'RemoveGroupFromSubject', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'subjectID': global.selectedSubjectID,
+        'groupID': id,
+      })
+    })
+      .then((response) =>
+        this.props.navigation.navigate("MainScreen"))
+      .catch((error) => {
+        console.error(error);
+      })
+  };
+
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -134,23 +156,6 @@ class SubjectGroupsScreen extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
-        <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: 'rgba(0,0,0,0.2)',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 70,
-            height: 70,
-            marginBottom: 10,
-            backgroundColor: '#fff',
-            borderRadius: 50,
-          }}
-          onPress={() => this._addGroup()}
-        >
-          <Icon name={"ios-add"} size={30} color="#ccebff" />
-        </TouchableOpacity>
-        {/* <Button title={'Add Group'} style={styles.bottomStyle} ></Button> */}
       </View>
     );
   }
@@ -171,7 +176,14 @@ const styles = StyleSheet.create({
   },
   removeGroup: {
     flex: 1,
-    backgroundColor: '#8cb3d9',
+    backgroundColor: '#f46d6b',
+    height: 50,
+    width: 50,
+    color: '#005dff'
+  },
+  addGroup: {
+    flex: 1,
+    backgroundColor: '#49d17d',
     height: 50,
     width: 50,
     color: '#005dff'

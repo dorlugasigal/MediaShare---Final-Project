@@ -73,7 +73,6 @@ class GroupDetailScreen extends React.Component {
             .then((response) =>
                 response.json())
             .then((responseJson) => {
-                console.log(JSON.stringify(responseJson));
                 this.setState({
                     group: responseJson,
                     members: responseJson.members
@@ -111,7 +110,6 @@ class GroupDetailScreen extends React.Component {
             .then((response) =>
                 response.json())
             .then((responseJson) => {
-                console.log(JSON.stringify(responseJson));
                 this.setState({
                     group: responseJson,
                     members: responseJson.members

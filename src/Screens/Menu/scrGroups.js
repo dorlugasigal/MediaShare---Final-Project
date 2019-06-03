@@ -54,7 +54,6 @@ class GroupsScreen extends React.Component {
       .then((response) =>
         response.json())
       .then((responseJson) => {
-        console.log(responseJson.toString());
         this.setState({
           groups: responseJson
         })

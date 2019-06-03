@@ -16,9 +16,9 @@ class MyListItem extends React.PureComponent {
     global.selectedSubjectMedia = this.props.media;
     global.selectedSubject = this.props.name;
     global.selectedSubjectCreator = this.props.subjectCreator;
-    console.log(this.props.id)
-    global.selectedSubjectID= this.props.id;
-    console.log(global.selectedSubjectID)
+    global.selectedSubjectID = this.props.id;
+    global.selectedSubjectGroups = global.subjects.filter(
+      x => x._id === global.selectedSubjectID)[0].groups;
     this.props.onPressItem();
   };
 
@@ -74,20 +74,20 @@ class MainScreen extends React.Component {
       },
       body: JSON.stringify({
         'userID': global.userID,
-        'email':global.email
+        'email': global.email
       })
     })
       .then((response) =>
         response.json())
       .then((responseJson) => {
         var x = Object.assign([], responseJson);
-        this.setState({ subjects: responseJson, refreshing:false });
+        this.setState({ subjects: responseJson, refreshing: false });
 
         global.subjects = responseJson;
         global.refreshSubjects = true;
       })
       .catch((error) => {
-        this.setState({refreshing:false})
+        this.setState({ refreshing: false })
         console.error(error);
       });
   }
