@@ -14,23 +14,21 @@ class MyListItem extends React.PureComponent {
   }
 
   _onPress = () => {
-    this.props.onPressItem(this.props.path);
+    this.props.onPressItem(this.props.base64, this.props.mediaUploader);
   };
 
   render() {
     return (
-      <View>
-        <TouchableOpacity onPress={this._onPress}>
-          <View style={styles.mediasContainer}>
-            {/* <Text style={styles.mediaText}>{this.props.id}</Text>
+      <View style={styles.singleMediaContainer}>
+        <TouchableOpacity onPress={this._onPress} >
+          {/* <Text style={styles.mediaText}>{this.props.id}</Text>
             <Text style={styles.mediaText}>{this.props.type}</Text>
           <Text style={styles.mediaText}>{this.props.path}</Text> */}
-            <Image style={styles.mediaPhoto} source={{ uri: this.props.base64 }}></Image>
-            <View style={styles.textContainer}>
+          <Image style={styles.mediaPhoto}  source={{ uri: this.props.base64 }}></Image>
+          {/* <View style={styles.textContainer}>
               <Text style={styles.mediaText}>{this.props.mediaUploader}</Text>
               <Text style={styles.mediaText}>{this.props.uploadDate}</Text>
-            </View>
-          </View>
+            </View> */}
         </TouchableOpacity>
       </View>
     );
@@ -51,8 +49,8 @@ class SubjectMedias extends React.Component {
       base64={item.base64}
     />
   );
-  _onPressItem = (path) => {
-    alert(`you asked for ${path}`);
+  _onPressItem = (path, mediaUploader) => {
+    this.props.navigation.navigate('MediaDetailsScreen', { path: path, mediaUploader: mediaUploader })
   };
 
   render() {
@@ -67,19 +65,17 @@ class SubjectMedias extends React.Component {
 
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>
-          {global.selectedSubject}:
-           </Text>
-        <ScrollView>
+          {global.selectedSubject}
+        </Text>
 
+        <View style={styles.mediasContainer}>
           <FlatList
             data={global.selectedSubjectMedia}
             keyExtractor={this._keyExtractor}
             renderItem={this._renderItem}
           />
-        </ScrollView>
-
+        </View>
       </View>
-
     )
   }
 }
@@ -88,26 +84,28 @@ const styles = StyleSheet.create({
   title: {
     color: '#338EFF',
     marginTop: 10,
+    padding: 10,
     fontSize: 20,
+    textAlign: 'center',
     fontWeight: 'bold',
     alignSelf: 'center'
   },
   mediasContainer: {
+  
     flex: 1,
     flexDirection: 'row',
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
-    marginRight: 15,
     padding: 10,
-    paddingLeft: 20,
     marginTop: 15,
-
-    alignItems: 'flex-start',
-    backgroundColor: '#d9e6fc'
+    backgroundColor: '#d9e6fc',
   },
-  textContainer:{
+  singleMediaContainer: {
+    borderWidth: 2,
+    borderColor: '#fff',
+    width: 100,
+    height: 100,
+  },
+  textContainer: {
     flexDirection: 'column',
-
   },
   mediaText: {
     color: '#7695c9',
@@ -116,9 +114,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   mediaPhoto: {
-    flex: 1,
-    width: 150,
-    height: 150
+    width: 100,
+    height: 100,
+    resizeMode: 'stretch'
   }
 });
 

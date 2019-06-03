@@ -17,6 +17,7 @@ import ScheduleScreen from "./src/Screens/Menu/scrSchedule"
 import Icon from "@expo/vector-icons/Ionicons"
 import GroupDetailScreen from './src/Screens/Menu/scrGroupDetails'
 import AddGroupScreen from './src/Screens/Menu/scrAddGroup'
+import MediaDetailsScreen from './src/Screens/scrMediaDetails'
 class CoolBackgroundImage extends React.Component {
   render() {
 
@@ -83,6 +84,7 @@ const AppStack = createStackNavigator({
   GroupDetailScreen: GroupDetailScreen,
   AddGroupScreen: AddGroupScreen,
   AddMemberScreen:AddMemberScreen,
+  MediaDetailsScreen: MediaDetailsScreen
 },
   {
     headerMode: 'float',
