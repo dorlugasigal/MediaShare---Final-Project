@@ -61,7 +61,7 @@ class SubjectMedias extends React.Component {
           style: 'cancel',
         },
         {
-          text: 'Yes', onPress:  ()=> {
+          text: 'Yes', onPress: () => {
             fetch(GLOBAL.API + 'DeleteSubject', {
               method: 'POST',
               headers: {
@@ -100,8 +100,13 @@ class SubjectMedias extends React.Component {
             numColumns={3}
           />
         </View>
-        <View>
-          <Button title="Delete Subject" onPress={()=>{this.deleteSubjectMessage()}}></Button>
+        <View style={{ flexDirection: 'row' ,justifyContent: 'space-between' }}>
+          <View style={styles.deleteButton}>
+            <Button title="Delete Subject" onPress={() => { this.deleteSubjectMessage() }}></Button>
+          </View>
+          <View style={styles.manageGroupsButton}>
+            <Button color={"#4495f7"} title="Manage Groups" onPress={() => { this.manageGroups() }}></Button>
+          </View>
         </View>
       </View>
     )
@@ -109,6 +114,14 @@ class SubjectMedias extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  deleteButton: {
+    width: '49%',
+    height: 30,
+  },
+  manageGroupsButton: {
+    width: '49%',
+    height: 30,
+  },
   title: {
     color: '#338EFF',
     marginTop: 10,
