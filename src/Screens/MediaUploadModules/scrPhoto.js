@@ -3,7 +3,6 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, CameraRoll, Platform, 
 import { Camera, Permissions, ImageManipulator } from 'expo';
 import Icon from "@expo/vector-icons/Ionicons"
 import UserSchedule from "../util/UserSchedule"
-
 const GLOBAL = require('../../Globals.js');
 var { height, width } = Dimensions.get('window');
 export default class CameraScreen extends React.Component {

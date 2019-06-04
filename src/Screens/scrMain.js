@@ -6,10 +6,14 @@ import { FloatingAction } from 'react-native-floating-action';
 import ActionButton from 'react-native-action-button';
 import { ImagePicker, DocumentPicker } from 'expo';
 const GLOBAL = require('../Globals.js');
+import UserSchedule from "./util/UserSchedule"
 
 class MyListItem extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      data: {}
+    }
   }
 
   _onPress = () => {
@@ -48,7 +52,8 @@ class MainScreen extends React.Component {
     this.focusListener.remove();
   }
   componentDidMount() {
-
+    let x = new UserSchedule();
+    x.getCurrentTimeSubject();
     this.focusListener = this.props.navigation.addListener("didFocus", () => {
       global.subjects = [];
       global.refreshSubjects = false;
@@ -92,40 +97,38 @@ class MainScreen extends React.Component {
       });
   }
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let photo = await ImagePicker.launchImageLibraryAsync({
+      quality: 1,
+      base64: true,
       allowsEditing: true,
       aspect: [4, 3],
     });
-
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
+    console.log(global.SubjectID)
+    this.setState({
+      data: {
+        mediaUploader: { email: global.email, userID: global.userID },
+        type: "image",
+        subject: global.SubjectID,
+        path: photo.uri,
+        base64: `data:image/jpg;base64,${photo.base64}`
+      }
+    })
+    if (!photo.cancelled) {
+      this.setState({ image: photo.uri });
       fetch(GLOBAL.API + 'AddMedia', {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',  // It can be used to overcome cors errors
           'Content-Type': 'application/json',
         },
-
-        body: JSON.stringify({
-          "mediaUploader": global.email,
-          "type": "image",
-          "path": result.uri,
-          "subjectID": "d4ea2c266249346fb1e706d7"
-        })
+        body: JSON.stringify(this.state.data)
       })
         .then((response) =>
           response.json())
         .then((responseJson) => {
-          this.setState({
-            subjects: responseJson
-          })
-          global.subjects = responseJson;
-          global.refreshSubjects = true;
           console.log("upload success");
-          alert("Uploaded Successfully!");
-
-
+          alert("Uploaded Successfully!")
+          this._handleRefresh()
         })
         .catch(error => {
           console.log("upload error", JSON.stringify(error));
