@@ -72,12 +72,12 @@ class MediaDetailsScreen extends React.Component {
                 <Image style={styles.mediaPhoto} source={{ uri: base64 }}></Image>
                 <View style={styles.horizontalLine} />
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 3 }}>
                         <Text style={styles.mediaTextContext}>
                             Created By:
                     </Text>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 4 }}>
                         <Text style={styles.mediaText}>
                             {this.state.uploderName}
                         </Text>
@@ -85,12 +85,12 @@ class MediaDetailsScreen extends React.Component {
                 </View>
                 <View style={styles.horizontalLine} />
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 3 }}>
                         <Text style={styles.mediaTextContext}>
                             Created On:
                     </Text>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 4 }}>
                         <Text style={styles.mediaText}>
                             {uploadDate}
                         </Text>
@@ -98,12 +98,12 @@ class MediaDetailsScreen extends React.Component {
                 </View>
                 <View style={styles.horizontalLine} />
                 <View style={{ flex: 1, flexDirection: 'row', marginLeft: 15 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 3 }}>
                         <Text style={styles.mediaTextContext}>
                             Subject:
                     </Text>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 4 }}>
                         <Text style={styles.mediaText}>
                             {global.selectedSubject}
                         </Text>
@@ -147,12 +147,12 @@ const styles = StyleSheet.create({
 
     mediaText: {
         margin: 10,
-        fontSize: 15,
+        fontSize: 13,
         color: "#ffffff"
     },
     mediaTextContext: {
         margin: 10,
-        fontSize: 15,
+        fontSize: 13,
         color: "#aaaaaa"
     },
 
