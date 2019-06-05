@@ -42,8 +42,13 @@ export default class UserSchedule {
         Permissions.askAsync(Permissions.CALENDAR, Permissions.LOCATION).then((status, permissions) => {
             if (status.status === 'granted')
                 Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT).then(calendars => {
+                    console.log ("calendars");
+                    console.log (calendars);
                     let selectedCal = calendars.filter(cal => cal.ownerAccount === global.email);
-                    if (selectedCal.length == 0) {
+                    console.log ("selectedCal");
+                    console.log (selectedCal);
+
+                    if (calendars.length == 0) {
                         this.getSubjectLoction();
                     }
                     else {

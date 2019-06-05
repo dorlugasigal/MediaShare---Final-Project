@@ -33,11 +33,14 @@ class LoginSplashScreen extends React.Component {
   }
   signInWithGoogleAsync = async () => {
     try {
+      console.log("1")
       const { type, accessToken, user } = await Google.logInAsync({
         androidClientId: '517235184328-tgvsi39epm24edn7rm02njmakmhcvmsq.apps.googleusercontent.com',
         iosClientId: '517235184328-6ih4iqcplt9ivbfmsqdrs8o0707hd6ml.apps.googleusercontent.com',
         scopes: ['profile', 'email', 'https://www.googleapis.com/auth/calendar']
       })
+      console.log("2")
+
 
       if (type === 'success') {
         global.signedIn = true;
