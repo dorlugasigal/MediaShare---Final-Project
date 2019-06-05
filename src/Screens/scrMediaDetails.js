@@ -8,11 +8,15 @@ class MediaDetailsScreen extends React.Component {
         super(props);
         this.state = {
             uploderName: '',
+            allowedToDelete: false
         }
     }
     componentDidMount() {
         this.getUploaderName()
-
+        let mediaUploaderID = navigation.getParam('mediaUploader');
+        if (global.selectedSubjectCreator === gloabl.userID || mediaUploaderID === global.userID) {
+            this.setState({ allowedToDelete: true })
+        }
     }
     getUploaderName() {
         const { navigation } = this.props;
@@ -58,7 +62,7 @@ class MediaDetailsScreen extends React.Component {
             })
         }).then((response) =>
             this.props.navigation.navigate('MainScreen')
-        ).catch ((error) => {
+        ).catch((error) => {
             console.error(error);
         });
 
@@ -110,22 +114,25 @@ class MediaDetailsScreen extends React.Component {
                     </View>
                 </View>
                 <View style={styles.horizontalLine} />
-                <TouchableOpacity
-                    style={{
-                        borderWidth: 1,
-                        borderColor: 'rgba(0,0,0,0.2)',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 60,
-                        height: 60,
-                        margin: 10,
-                        backgroundColor: '#37404f',
-                        borderRadius: 50,
-                    }}
-                    onPress={() => this.deleteMediaFromSubject()}
-                >
-                    <Icon name={"ios-trash"} size={30} color="#6b96ea" />
-                </TouchableOpacity>
+                {this.state.allowedToDelete
+                    ? <TouchableOpacity
+                        style={{
+                            borderWidth: 1,
+                            borderColor: 'rgba(0,0,0,0.2)',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 60,
+                            height: 60,
+                            margin: 10,
+                            backgroundColor: '#37404f',
+                            borderRadius: 50,
+                        }}
+                        onPress={() => this.deleteMediaFromSubject()}
+                    >
+                        <Icon name={"ios-trash"} size={30} color="#6b96ea" />
+                    </TouchableOpacity>
+                    : <View></View>
+                }
             </View >
         );
     }
