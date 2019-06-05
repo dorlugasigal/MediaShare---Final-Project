@@ -13,8 +13,13 @@ class MediaDetailsScreen extends React.Component {
     }
     componentDidMount() {
         this.getUploaderName()
+        const { navigation } = this.props;
+
         let mediaUploaderID = navigation.getParam('mediaUploader');
-        if (global.selectedSubjectCreator === gloabl.userID || mediaUploaderID === global.userID) {
+        console.log ("global.selectedSubjectCreator " + global.selectedSubjectCreator)
+        console.log ("global.userID " + global.userID)
+        console.log ("mediaUploaderID " + mediaUploaderID)
+        if (global.selectedSubjectCreator === global.userID || mediaUploaderID === global.userID) {
             this.setState({ allowedToDelete: true })
         }
     }
